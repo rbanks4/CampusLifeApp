@@ -1,0 +1,106 @@
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:context=".MyActivity"
+        android:id="@+id/mygroup"
+        android:animateLayoutChanges="@anim/fadeinleft"
+        android:nestedScrollingEnabled="false"
+        android:background="#FFFFFF"
+        >
+
+        <TableRow>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:id="@+id/AboutUs"
+                    android:src="@drawable/contact"
+                    android:onClick="viewContact"
+                    android:cropToPadding="false" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/about_button"
+                    android:textColor="#0e4c8b"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/imageButton2"
+                    android:src="@drawable/calendar"
+                    android:onClick="viewCalendar"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/calendar_button"
+                    android:textColor="#0e4c8b"/>
+            </LinearLayout>
+        </TableRow>
+        <TableRow>
+        <LinearLayout android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/info"
+                android:onClick="viewInfo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/info_button"
+                android:textColor="#0e4c8b"/>
+        </LinearLayout>
+        </TableRow>
+        <ViewAnimator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewAnimator" />
+
+
+            <ViewFlipper
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/flippo"
+                android:outAnimation="@anim/fadeleft"
+                android:inAnimation="@anim/fadeinleft"
+                android:autoStart="true"
+                android:flipInterval="5000"
+                android:paddingTop="20dp"
+                android:layout_gravity="center">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dlcfront" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dlcback"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/mls"/>
+
+            </ViewFlipper>
+
+
+    </TableLayout>
+
+
