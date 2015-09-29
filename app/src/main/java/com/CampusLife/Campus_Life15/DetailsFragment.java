@@ -1,5 +1,6 @@
 package com.CampusLife.Campus_Life15;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,7 +49,15 @@ public class DetailsFragment extends Fragment {
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
-                getActivity().setProgress(progress * 1000);
+                Activity activity = getActivity();
+                if (activity != null) {
+                    //activity.setTitle("Loading...");
+                    activity.setProgress(progress * 1000); //Make the bar disappear after URL is loaded
+                    // Return the app name after finish loading
+                    /*if(progress == 100)
+                        activity.setTitle(R.string.Fragment1);*/
+                }
+                //getActivity().setProgress(progress * 1000);
             }
         });
         scroller.addView(webview);

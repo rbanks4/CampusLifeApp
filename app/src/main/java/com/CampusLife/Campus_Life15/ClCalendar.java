@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -73,6 +74,7 @@ public class ClCalendar extends Activity {
     //private final int progr[]  = {30, 15, 20, 25, 20};
     private int index;
     ListView listview;
+    ViewFlipper vf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,7 +309,7 @@ public class ClCalendar extends Activity {
                 String[] changes = cparse.fixSummary(Summary);
                 //desc.toArray(changes);
 
-                CLEvent event = new CLEvent(changes[0], Title, changes[1], changes[2], changes[3]);
+                CLEvent event = new CLEvent(changes[0], Title, changes[1], changes[2], changes[3], temp);
                 //Log.w("myApp", "event with 5 elements: " + changes[0] + Title + changes[1] + changes[2] + changes[3]);
                 elist.add(event);
 
@@ -347,7 +349,6 @@ public class ClCalendar extends Activity {
             }
         }
     }
-
 
 
 

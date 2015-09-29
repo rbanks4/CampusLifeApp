@@ -17,13 +17,15 @@ public class CLEvent {
     //private String mdate;
     private ViewFlipper flip;
     public int color;
+    int id;
 
     DateFormat fday = new SimpleDateFormat("EEE MMM dd, yyyy");//this is how it should come out
     DateFormat tday = new SimpleDateFormat("HH:mm:ss");
     Date date;
 
 
-    public CLEvent(String prop0, String prop1, String prop2, String prop3, String prop5) {
+    public CLEvent(String prop0, String prop1, String prop2, String prop3, String prop5, int id) {
+        this.id = id;
         this.prop0 = prop0;//date
         try {
             date = (Date) fday.parse(prop0);//now we should be able to sort
@@ -113,11 +115,15 @@ public class CLEvent {
         return prop3;
     }
 
+    public int getID(){return id;}
+
     //public String getProp4() { return prop4; }
 
     public String getProp5() { return prop5; }
 
     public ViewFlipper getFlip() { return flip; }
+
+    //public void setFlip(int position) { flip.setId(position); }
 
     public void setFlip(ViewFlipper f){this.flip = f; }
 

@@ -1,7 +1,9 @@
 package com.CampusLife.Campus_Life15;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 
 //Reg: this class is created in order to customize our adapter for data design purposes
 public class CalendarAdapter extends BaseAdapter {
-
+//todo find out why more than one flipper ans flipping at a time
     private LayoutInflater inflater;
     private ArrayList<CLEvent> objects;
 
@@ -73,11 +75,32 @@ public class CalendarAdapter extends BaseAdapter {
             //holder.textView4 = (TextView) convertView.findViewById(R.id.textview4);//Reg: the holder will let you see what's inside the layout
             holder.textView5 = (TextView) convertView.findViewById(R.id.textview5);
             holder.flippy = (ViewFlipper) convertView.findViewById(R.id.flippy);
-            final ViewHolder finalHolder = holder;
+            holder.flippy.setId(objects.get(position).getID());//change it to a number so there is no confusion
+            final ViewFlipper finalHolder = holder.flippy;
+            //todo make an onTouchListener to replace on click in order to solve problem...not finished
+            /*holder.flippy.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            Log.d("DOWN", "DOWN");
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            Log.d("MOVE", "MOVE");
+                            break;
+
+                        case MotionEvent.ACTION_UP:
+                            Log.d("UP", "UP");
+                    }
+
+                    return true;//return true so this action will repeat
+                }
+            });*/
             holder.flippy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finalHolder.flippy.showNext();
+                    finalHolder.showNext();
                 }
             });
             convertView.setTag(holder);
@@ -91,6 +114,8 @@ public class CalendarAdapter extends BaseAdapter {
         holder.textView3.setText(objects.get(position).getProp3());
         //holder.textView4.setText(objects.get(position).getProp4());
         holder.textView5.setText(objects.get(position).getProp5());
+        //objects.get(position).setFlip(holder.flippy);
+        //holder.flippy.setid(objects.get(position).getFlip());
         //objects.get(position).setFlip(holder.flippy);
         return convertView;
     }
