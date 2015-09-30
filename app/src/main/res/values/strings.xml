@@ -1,0 +1,126 @@
+<resources>
+    <string name="app_name">Main</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Search</string>
+
+    <string name="home_button">Home</string>
+    <string name="about_button">About Us</string>
+    <string name="calendar_button">Calendar</string>
+    <string name="info_button">Info</string>
+    <string name="regi_button">Register</string>
+    <string name="action_search">Action Search</string>
+    <string name="date">September 29</string>
+    <string name="hello_world">Connect to Student Involvement</string>
+
+    <string name="Tash"><b>Natasha Hutson</b></string>
+    <string name="TashPos"><b>Director</b></string>
+    <string name="NatashaBio">Natasha oversees the major day to day external activities
+        coming into the office and manges the Student Activity Center along with the staff from the
+        Department of Campus Life. She also advises Fraternity and Sorority life, Student Government
+        Association, and is the primary advisor for the National Society for Leadership and Success.
+        <u>NatashaHutson@mail.clayton.edu</u>
+    </string>
+
+    <string name="Kiesa"><b>Lakiesa Cantey-Rawlinson</b></string>
+    <string name="KiesaPos"><b>Associate Director</b></string>
+    <string name="LakiesaBio">Lakiesa handles the internal activities of Campus Life in relation to
+        the campus. She also manages our major Multicultural and Diversity based programs and
+        Leadership programs. She advises D.E.E.P. (Diversity Education Experiences for Peers).
+        <u>LakiesaCanteyRawlinson@mail.clayton.edu</u>
+    </string>
+
+    <string name="Shondo"><b>LaShanda Hardin</b></string>
+    <string name="ShondoPos"><b>Program Coordinator</b></string>
+    <string name="ShondoBio">
+        LaShanda is our service learning, community outreach, and civic engagement expert.
+        She coordinates service based programs for the student body and faculty. Ms. LaShanda advises
+        Habitat for Humanity (nicknamed: \'abitat) and S.A.A.S. (Student African American Sisterhood).
+        <u>email@mail.clayton.edu</u>
+    </string>
+
+    <string name="Jen"><b>Jennifer Welch</b></string>
+    <string name="JenPos"><b>AmeriCorps Program Coordinator</b></string>
+    <string name="JenBio">
+        Jen is in charge of the CSU AmeriCorps program which holds over 30 active students;
+        each serve the community in order to reach their goal of 900 service hours. Jen advises
+        Alpha Phi Omega National Service Fraternity.
+        <u>email@mail.clayton.edu</u>
+    </string>
+
+    <string name="Royal"><b>Atawanna Royal</b></string>
+    <string name="RoyalPos"><b>Assistant Director</b></string>
+    <string name="RoyalBio">
+        Royal (preferred addressing) coordinates and organizes all recognized student organizations
+        on campus. She is the creator of the RESET program and advisor of CEC (Campus Events Council).
+        <u>email@mail.clayton.edu</u>
+    </string>
+
+    <string name="Amber"><b>Amber Cutter</b></string>
+    <string name="AmberPos"><b>Events Coordinator</b></string>
+    <string name="AmberBio">
+        Amber coordinates reservations for events from internal and external clients.....
+        this is not Amber...this is Shondo.
+        <u>email@mail.clayton.edu</u>
+    </string>
+
+    <!-- this is for the array -->
+    <array name="titles">
+        <item>Summer Fling</item>
+        <item>Welcome Back Turn-up</item>
+        <item>Red, Black, and Blue: Police Brutality or White Privilage </item>
+        <item>Diversity and Multicultural Conference</item>
+        <item>Male Leadership Summit</item>
+        <item>Winter Wonderland Party and Potluck</item>
+    </array>
+
+    <array name="times">
+        <item>6:00 pm - 10:00 pm</item>
+        <item>7:00 pm - 10:00 pm</item>
+        <item>5:00 pm - 7:00 pm</item>
+        <item>8:00 am - 6:00 pm</item>
+        <item>10:00 am - 3:00 pm</item>
+        <item>5:00 pm - 11:00 pm</item>
+    </array>
+
+    <array name="locations">
+        <item>Clayton Station Pool Hall</item>
+        <item>SAC Ballrooms</item>
+        <item>SAC Ballroom A and B</item>
+        <item>SAC Ballrooms</item>
+        <item>SAC Ballrooms</item>
+        <item>SAC Laker Lounge</item>
+    </array>
+
+    <array name="sponsors">
+        <item>Campus Events Council</item>
+        <item>Campus Life</item>
+        <item>D.E.E.P.</item>
+        <item>Campus Life, AmeriCorps, D.E.E.P</item>
+        <item>Campus Life</item>
+        <item>Campus Life</item>
+    </array>
+
+    <array name="description">
+        <item>Summer is here and the sun is out! Time to go to the pool and have some fun. Join us
+        as we gather for music and food.</item>
+        <item>Not enough parties in your life. Come by for music, free stuff, and games as we celebrate
+        the first week of school.</item>
+        <item>We will address the current pace of police brutality across the United States. For more
+        information, please contact Dr. Lakiesa Cantey-Rawlinson</item>
+        <item>It\'s the 6th Annual Diversity and Leadership Conference. Come experience different cultures
+            and add Diversity training to your resume. There are plenty of reasons to expand your
+            horizons. Sign up today by sending an e-mail to Dr. Lakiesa Cantey-Rawlinson.</item>
+        <item>Come network with your peers and get to know your professors. The Male Leadership
+        Summit is your stop for networking, mentoring, and leadership in males here at CSU.</item>
+        <item>It\'s a potluck, it\'s a celebration! Music, food, and fun; ah, the ultimate combination!</item>
+    </array>
+
+    <string name="title_activity_main">Campus Life</string>
+    <string name="title_activity_display_message">Display Message</string>
+    <string name="title_activity_calendar">Calendar</string>
+    <string name="title_activity_info">Info</string>
+    <string name="title_activity_contact">About Us</string>
+    <string name="title_activity_register">Register</string>
+</resources>
