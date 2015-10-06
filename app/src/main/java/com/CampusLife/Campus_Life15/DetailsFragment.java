@@ -11,7 +11,7 @@ import android.widget.ScrollView;
 
 public class DetailsFragment extends Fragment {
 
-    // Create a DetailsFragment that contains the hero data for the correct index
+    // Create a DetailsFragment that contains the data for the correct index
     public static DetailsFragment newInstance(int index) {
         DetailsFragment f = new DetailsFragment();
 
@@ -43,12 +43,15 @@ public class DetailsFragment extends Fragment {
 
         //we will load a webpage based off of the information
         WebView webview = new WebView(getActivity());
+        webview.getSettings().setUserAgentString("Android");
         webview.loadUrl(InfoDetails.HISTORY[getShownIndex()]);
         webview.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
-                getActivity().setProgress(progress * 1000);
+                if (getActivity() != null) {//fixes null pointer issue
+                    getActivity().setProgress(progress * 1000);
+                }
             }
         });
         scroller.addView(webview);

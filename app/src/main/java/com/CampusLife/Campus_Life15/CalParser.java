@@ -30,7 +30,20 @@ public class CalParser {
         //this.mActivity = activity;
     }
 
-    //todo parse data so that we have a clean date/time/location/description
+    //this method will be used in CLEvent
+    public String[] dayCircle(String date){
+        //parse it by space
+        //an example string would be "Friday Sep 30, 2015"
+        //split by space: {"Friday", "Sep", "30,", "2015"}
+        //note: fix array [2] via 3rd one without comma
+        String[] myDate = date.split(" ");
+        myDate[2] = myDate[2].replace(",","");
+        //final array: {"Friday", "Sep", "30", "2015"}
+        //we won't really use [3] unless we need it
+        return myDate;
+    }
+
+    //todo clean code to remove redundancy in fixSummary
     public String[] fixSummary(String raw) {
         // List the next 10 events from the primary calendar. -Reg
         String file = raw;
@@ -42,10 +55,6 @@ public class CalParser {
         data[1] = GetTime(file);
         data[2] = GetLocation(file);
         data[3] = GetDesc(file);
-        //todo outcome1: (date, time, location, desc) = 2 more splits
-        //todo outcome2: (date, time, location) = 1 more split
-        //todo outcome3: (date, time)
-
 
         for (int i = 0; i<3; i++) {//clean up all the jibberish
             //clean up text
@@ -102,7 +111,7 @@ public class CalParser {
         if (sum.contains("Where: ")){
             String loc[] = sum.split("Where: ");
             String loc2[] = loc[1].split("<");
-            return loc2[0];
+            return rmlines(loc2[0]);
         }
         else{
             return null;
@@ -132,11 +141,12 @@ public class CalParser {
                 catch(Exception e){
                     e.printStackTrace();
                 }
-                edit = "Start time: " + ntime[0];
+                ntime[0] = noZero(ntime[0]);
+                edit = ntime[0];
             }
             else{
                 ntime[0] = removespace2(ntime[0]);
-                try {//todo add condition for 12
+                try {
                     removespace2(ntime[0]);
                     dtime = (Date) stime.parse(ntime[0]);
                     String fix = stime12.format(dtime);
@@ -145,7 +155,8 @@ public class CalParser {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                edit = "Start time: " + ntime[0];
+                ntime[0] = noZero(ntime[0]);
+                edit = ntime[0];
             }
             return edit;
         }
@@ -161,6 +172,7 @@ public class CalParser {
                 catch(Exception e){
                     e.printStackTrace();
                 }
+                span[0] = noZero(span[0]);
             }
             else{
                 try {
@@ -176,8 +188,9 @@ public class CalParser {
                 catch(Exception e){
                     e.printStackTrace();
                 }
+                span[0] = noZero(span[0]);
             }
-            if (span[0].contains(":")) { //todo finish span[1]
+            if (span[0].contains(":")) {
                 try {
                     dtime = (Date) colon.parse(span[1]);
                     span[1] = ltime.format(dtime);
@@ -185,11 +198,13 @@ public class CalParser {
                 catch(Exception e){
                     e.printStackTrace();
                 }
+                span[1] = noZero(span[1]);
             }
             else{
                 try {
                     span[1] = removespace2(span[1]);
                     span[1] = removespace3(span[1]);
+                    span[1] = noZero(span[1]);
                     /*if (span[1].length() > 3) {
                         span[1] = removespace3(span[1]);
                         dtime = (Date) stime12.parse(span[1]);
@@ -208,7 +223,7 @@ public class CalParser {
                     e.printStackTrace();
                 }
             }
-            time = span[0] + " to " +span[1];
+            time = span[0] + " - " +span[1];
             return time;
         }
     }
@@ -223,10 +238,12 @@ public class CalParser {
             caltest = caltest.replace("&quot;", "");
         }
     }
-    public void newlines(String caltest){
-        while(caltest.contains("(\\r|\\n)")){
-            caltest = caltest.replace("(\\r|\\n)", "");
+    public String rmlines(String caltest){
+        while(caltest.contains("(\\r|\\n|)")||caltest.contains("\n")){
+            caltest = caltest.replace("(\\r|\\n|)", "");
+            caltest = caltest.replaceAll("\n", "");
         }
+        return caltest;
     }
     public void removespace(String caltest){
         Log.w("BeforeA", "before "+caltest);
@@ -236,6 +253,7 @@ public class CalParser {
             caltest.replaceAll("\\s{2,}",""); //for html contiguous spaces
             caltest.replaceAll("\\W","");
             caltest = caltest.replaceAll("(\\r|\\n)", "");
+            caltest = caltest.replaceAll("\n","");
         }
         try {
             dtime = (Date) stime.parse(caltest);
@@ -243,6 +261,7 @@ public class CalParser {
         }
         catch(Exception e){
             e.printStackTrace();
+            Log.w("BeforeAF", "FAILURErm1: " + caltest);
         }
         Log.w("BeforeA", "after "+caltest);
     }
@@ -254,6 +273,7 @@ public class CalParser {
             caltest.replaceAll("\\s{2,}",""); //for html contiguous spaces
             caltest.replaceAll("\\W","");
             caltest = caltest.replaceAll("(\\r|\\n)", "");
+            caltest = caltest.replaceAll("\n","");
         }
         try {
             dtime = (Date) stime.parse(caltest);
@@ -261,7 +281,7 @@ public class CalParser {
             Log.w("BeforeA", "SUCCESS: "+caltest);
         }
         catch(Exception e){
-            Log.w("BeforeAF", "FAILURE: "+caltest);
+            Log.w("BeforeAF", "FAILURErm2: "+caltest);
             e.printStackTrace();
         }
         return caltest;
@@ -274,6 +294,7 @@ public class CalParser {
             caltest.replaceAll("\\s{2,}",""); //for html contiguous spaces
             caltest.replaceAll("\\W","");
             caltest = caltest.replaceAll("(\\r|\\n)", "");
+            caltest = caltest.replaceAll("\n","");
         }
         try {
             dtime = (Date) stime12.parse(caltest);
@@ -282,8 +303,15 @@ public class CalParser {
         }
         catch(Exception e){
             e.printStackTrace();
-            Log.w("BeforeAF", "FAILURE: " + caltest);
+            Log.w("BeforeAF", "FAILURErm3: " + caltest);
         }
         return caltest;
+    }
+    public String noZero(String date){
+        String d = date;
+        if(date.charAt(0)=='0'){
+            return d.substring(1);
+        }
+        return d;
     }
 }

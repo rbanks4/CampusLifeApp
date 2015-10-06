@@ -20,16 +20,16 @@
         coming into the office and manges the Student Activities Center along with the staff from the
         Department of Campus Life. She also advises Fraternity and Sorority life, Student Government
         Association, and is the primary advisor for the National Society for Leadership and Success.
-        <u>NatashaHutson@clayton.edu</u>
     </string>
+    <string name="Tash_e"><u>NatashaHutson@clayton.edu</u></string>
 
     <string name="Kiesa"><b>Lakiesa Cantey-Rawlinson</b></string>
     <string name="KiesaPos"><b>Associate Director</b></string>
     <string name="LakiesaBio">Lakiesa handles the internal activities of Campus Life in relation to
         the campus. She also manages our major Multicultural and Diversity based programs and
         Leadership programs. She advises D.E.E.P. (Diversity Education Experiences for Peers).
-        <u>LakiesaCanteyRawlinson@clayton.edu</u>
     </string>
+    <string name="Kiesa_e"><u>LakiesaCanteyRawlinson@clayton.edu</u></string>
 
     <string name="Shondo"><b>LaShanda Hardin</b></string>
     <string name="ShondoPos"><b>Program Coordinator</b></string>
@@ -37,8 +37,8 @@
         LaShanda is our service learning, community outreach, and civic engagement expert.
         She coordinates service based programs for the student body and faculty. Ms. LaShanda advises
         Habitat for Humanity (nicknamed: \'abitat) and S.A.A.S. (Student African American Sisterhood).
-        <u>LaShandaHardin@clayton.edu</u>
     </string>
+    <string name="Shondo_e"><u>LaShandaHardin@clayton.edu</u></string>
 
     <string name="Jen"><b>Jennifer Welch</b></string>
     <string name="JenPos"><b>AmeriCorps Program Coordinator</b></string>
@@ -46,23 +46,28 @@
         Jen is in charge of the CSU AmeriCorps program which holds over 30 active students;
         each serve the community in order to reach their goal of 900 service hours. Jen advises
         Alpha Phi Omega National Service Fraternity.
-        <u>JenniferWelch@clayton.edu</u>
     </string>
+    <string name="Jen_e"><u>JenniferWelch@clayton.edu</u></string>
 
     <string name="Royal"><b>Atawanna Royal</b></string>
     <string name="RoyalPos"><b>Assistant Director</b></string>
     <string name="RoyalBio">
         Royal (preferred addressing) coordinates and organizes all recognized student organizations
         on campus. She is the creator of the RESET program and advisor of CEC (Campus Events Council).
-        <u>AtawannaRoyal@clayton.edu</u>
+
     </string>
+    <string name="Royal_e"><u>AtawannaRoyal@clayton.edu</u></string>
 
     <string name="Amber"><b>Amber Cutter</b></string>
     <string name="AmberPos"><b>Events Coordinator</b></string>
     <string name="AmberBio">
         Amber coordinates reservations for events from internal and external clients.
-        <u>AmberCutter@clayton.edu</u>
     </string>
+    <string name="Amber_e"><u>AmberCutter@clayton.edu</u></string>
+
+    <string name="ContactInfo">For any other information regarding the Department of Campus Life,
+        feel free to call at 678-466-5433 (LIFE) or e-mail <u>CampusLife@clayton.edu</u></string>
+    <string name="OfficeHours">(Mon-Fri) 8:00 am - 5:00 p.m</string>
 
     <!-- this is for the array -->
     <array name="titles">

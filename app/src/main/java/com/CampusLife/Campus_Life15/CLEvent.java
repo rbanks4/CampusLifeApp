@@ -14,9 +14,11 @@ public class CLEvent {
     private String prop3;
     //private String prop4;
     private String prop5;
+    private String[] propdate;
     //private String mdate;
     private ViewFlipper flip;
     public int color;
+    private CalParser mdate = new CalParser();
 
     DateFormat fday = new SimpleDateFormat("EEE MMM dd, yyyy");//this is how it should come out
     DateFormat tday = new SimpleDateFormat("HH:mm:ss");
@@ -48,6 +50,8 @@ public class CLEvent {
         else{
             this.prop5 = "No description available";
         }
+        //final array is something like: {"Friday", "Sep", "30", "2015"}
+        this.propdate = mdate.dayCircle(this.prop0);
         checkColor();
     }
     public CLEvent(String prop0, String prop1){//reserved for all day events
@@ -98,6 +102,10 @@ public class CLEvent {
     }
 
     public String getProp0() { return prop0; }
+
+    public String getPropDateWeek() {return propdate[0];};
+    public String getPropDateMonth() {return propdate[1];};
+    public String getPropDateDay() {return propdate[2];};
 
     public Date getDate() { return date; }
 

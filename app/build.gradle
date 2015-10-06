@@ -28,6 +28,11 @@ android {
         }
     }
 }
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -37,5 +42,8 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.20.0'
     compile 'com.google.api-client:google-api-client-gson:1.20.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev125-1.20.0'
-    compile 'com.f2prateek.progressbutton:progressbutton:(insert latest version)@aar'
+    compile ('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
+        transitive = true;
+    }
+    //compile 'com.f2prateek.progressbutton:progressbutton:(insert latest version)@aar'
 }

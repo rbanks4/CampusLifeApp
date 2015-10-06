@@ -1,5 +1,7 @@
 package com.CampusLife.Campus_Life15;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -21,7 +24,7 @@ public class Home extends Activity {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
 
 
-
+    //todo fetch and customize resolutions to peak user experience
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,7 @@ public class Home extends Activity {
         final ViewFlipper flippo = (ViewFlipper) findViewById(R.id.flippo);
         final ImageView image = (ImageView)findViewById(R.id.AboutUs);
         final Handler handler = new Handler();
+        final ImageView calimage = (ImageView)findViewById(R.id.CalImage);
 
 
         ActionBar ab = getActionBar();
@@ -53,30 +57,36 @@ public class Home extends Activity {
                 flippo.showNext();
             }
         });
-        /*image.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
 
-                image.startAnimation(animAccelerateDecelerate);
-                return true;
-            }
-        });*/
         image.setOnClickListener(new ImageView.OnClickListener(){
 
             @Override
             public void onClick(View arg0) {
-                /*image.startAnimation(animAccelerateDecelerate);
-                handler.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        int a  = 1;
-                    }
-
-                }, 1500); // 500ms delay*/
                 viewContact(arg0);
-
             }});
+        //todo try to make a circular reveal (even though it should only work on lolipop
+        /*// get the center for the clipping circle
+        int cx = calimage.getWidth() / 2;
+        int cy = calimage.getHeight() / 2;
+
+        // get the final radius for the clipping circle
+        int finalRadius = Math.max(calimage.getWidth(), calimage.getHeight());
+
+        // create the animator for this view (the start radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(calimage, cx, cy, 0, finalRadius);
+
+        // make the view visible and start the animation
+        calimage.setVisibility(View.VISIBLE);
+        // make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                calimage.setVisibility(View.INVISIBLE);
+            }
+        });
+        anim.start();*/
     }
 
     @Override
@@ -145,7 +155,7 @@ public class Home extends Activity {
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
-        overridePendingTransition(R.anim.acceldecel, R.anim.acceldecelexit);
+        overridePendingTransition(R.anim.acceldecel, R.anim.colorblind);
 
     }
     public void viewInfo(View view){
@@ -156,13 +166,15 @@ public class Home extends Activity {
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
-        overridePendingTransition(R.anim.acceldecel, R.anim.acceldecelexit);
+        //enter,exit
+        overridePendingTransition(R.anim.acceldecel, R.anim.colorblind);
 
     }
     public void viewContact(View view){
         Intent intent = new Intent(this, Contact.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.acceldecel, R.anim.acceldecelexit);
+        //activity comes in and the old one stays still
+        overridePendingTransition(R.anim.acceldecel, R.anim.colorblind);
 
     }
 
