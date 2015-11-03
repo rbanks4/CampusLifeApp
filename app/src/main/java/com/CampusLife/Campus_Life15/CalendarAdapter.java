@@ -79,6 +79,7 @@ public class CalendarAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
+        final ViewFlipper flipperTemp;
         if(convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.layout_calendar, null);
@@ -111,7 +112,9 @@ public class CalendarAdapter extends BaseAdapter {
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+            holder.flippy.setDisplayedChild(0);
         }
+        flipperTemp = (ViewFlipper)convertView.findViewById(R.id.flippy);
         //todo remember to remove flipper when we add our animator
         //holder.linearLayout.setBackgroundColor(getItem(position).color);
         holder.textVieww.setText(objects.get(position).getPropDateWeek());
@@ -129,6 +132,13 @@ public class CalendarAdapter extends BaseAdapter {
         holder.textView3.setTextColor(getItem(position).color);
         holder.textView5.setTextColor(getItem(position).color);
         //objects.get(position).setFlip(holder.flippy);
+
+        holder.flippy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                flipperTemp.showNext();
+            }
+        });
+
         return convertView;
     }
 }

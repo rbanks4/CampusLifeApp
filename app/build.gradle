@@ -9,7 +9,7 @@ android {
         applicationId "com.CampusLife.Campus_Life15"
         minSdkVersion 11
         targetSdkVersion 22
-        versionCode 2 //version 2 made on 9/24/15 around 9:39 PM
+        versionCode 3 //version 2 made on 10/5/15 around 11:07 PM
         versionName "1.0"
     }
     signingConfigs {

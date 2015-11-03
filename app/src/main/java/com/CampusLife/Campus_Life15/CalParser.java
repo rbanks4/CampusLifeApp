@@ -14,12 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An asynchronous task that handles the Google Calendar API call.
- * Placing the API calls in their own task ensures the UI stays responsive.
+ * An asynchronous task that handles the Google Calendar XML exports or links.
+ * Uses XML in place of Google Calendar API in order to make calendar public.
  */
 public class CalParser {
     Date dtime;
-    //DateFormat stime = new SimpleDateFormat(" haa");
     DateFormat stime = new SimpleDateFormat("haa");
     DateFormat stime12 = new SimpleDateFormat ("hhaa");
     DateFormat colon = new SimpleDateFormat ("hh:mmaa");
@@ -27,44 +26,49 @@ public class CalParser {
 
     //Constructor
     CalParser() {
-        //this.mActivity = activity;
     }
 
     //this method will be used in CLEvent
     public String[] dayCircle(String date){
-        //parse it by space
-        //an example string would be "Friday Sep 30, 2015"
-        //split by space: {"Friday", "Sep", "30,", "2015"}
-        //note: fix array [2] via 3rd one without comma
+        /*
+        parse it by space
+        an example string would be "Friday Sep 30, 2015"
+        split by space: {"Friday", "Sep", "30,", "2015"}
+        */
         String[] myDate = date.split(" ");
         myDate[2] = myDate[2].replace(",","");
-        //final array: {"Friday", "Sep", "30", "2015"}
-        //we won't really use [3] unless we need it
+        /*
+        final array: {"Friday", "Sep", "30", "2015"}
+        we won't really use [3] unless we need it
+        the CalParser will only go through a semester's worth of info
+        updates to the code can be made as the semester progresses
+        */
         return myDate;
     }
 
-    //todo clean code to remove redundancy in fixSummary
     public String[] fixSummary(String raw) {
-        // List the next 10 events from the primary calendar. -Reg
+        /*
+        List the future events from the primary calendar. -Reg
+        read in the raw file, replace words that don't belong (like "When: ")
+        parse date, time, location, and description based on key words
+        */
         String file = raw;
-        //List<String> dtd = new ArrayList<String>();
-        file.replaceAll("When: ", ""); //now it will read
-        //String date[] = file.split(", 2015");
+        file.replaceAll("When: ", "");
         String data[] = new String[4];
         data[0] = GetDate(file);
         data[1] = GetTime(file);
         data[2] = GetLocation(file);
         data[3] = GetDesc(file);
 
-        for (int i = 0; i<3; i++) {//clean up all the jibberish
-            //clean up text
+        for (int i = 0; i<3; i++) {
+            //if data exist, clean data of XML tags, and edits
             if (data[i] != null) {
-                remove("<br>", data[i]);
-                remove("Event Status: confirmed", data[i]);
+                remove(" ", data[i]);
+                        remove("Event Status: confirmed", data[i]);
                 remove("EDT", data[i]);
                 remove("EST", data[i]);
-                remove("&amp;", data[i]);
-                remove("&nbsp;", data[i]);
+                remove("&", data[i]);
+                remove(" ", data[i]);
                 remove("When: ", data[i]);
                 quotes(data[i]);
             }
@@ -73,21 +77,32 @@ public class CalParser {
             }
         }
 
-
-        //String delims = "When: ";
-        //String[] tokens = employee.split(delims);
         return data;
     }
 
+    //todo turn into a switch
     public String GetDate(String sum){
+        /*
+        our token to find date is "When: "
+        so we take the data after it
+        */
         String date[] = sum.split("When: ");
-        String fdate; //our final date
+        //our final date
+        String fdate; 
+        /*
+        check for the year
+        there is some weird xml code after ", 2015"
+        we use split to cut out what we need
+        oddly enough we add it back to keep format
+        todo add 'year' to our CLEvent object
+        */
         if (date[1].contains("2015")) {
             String date2[] = date[1].split(", 2015");
             fdate = date2[0] + ", 2015";
             return fdate;
         }
         else if (date[1].contains ("2016")) {
+            //we don't need this yet
             String date2[] = date[1].split(", 2016");
             fdate = date2[0] + ", 2016";
             return fdate;
@@ -98,9 +113,15 @@ public class CalParser {
         }
     }
     public String GetTime(String sum){
+        /*
+        checks summary for am or pm token
+        this s how we find the time
+        time is on the right side of our year
+        */
         if (sum.contains("am")||sum.contains("pm")){
             String time[] = sum.split("2015");
             String time2[] = time[1].split("&");
+            //fixTime() is super long remember to clean
             return fixTime(time2[0]);
         }
         else{
@@ -108,6 +129,7 @@ public class CalParser {
         }
     }
     public String GetLocation(String sum){
+        //looks for "Where: ", parses location
         if (sum.contains("Where: ")){
             String loc[] = sum.split("Where: ");
             String loc2[] = loc[1].split("<");
@@ -118,6 +140,7 @@ public class CalParser {
         }
     }
     public String GetDesc(String sum){
+        //looks for "Event Description: " parses desc
         if (sum.contains("Event Description: ")){
             String desc[] = sum.split("Event Description: ");
             return desc[1];
@@ -127,12 +150,28 @@ public class CalParser {
         }
     }
 
+    //todo clean fixTime()
+    /*
+    fixtime will give all of our time data a uniform look
+    -no leading 0s 
+    -if only a start time, just show start time
+    -remove redunant xml clutter
+    -add ":00" to times like "4 pm"
+    */
     public String fixTime(String time){
+        //removes all the meat in the string we don't need
         time = time.replaceAll("(to)(.*?)(2015)","to");
+        /*
+        in the xml file, some times are written as "h pm"
+        and others are written as "h:mm pm" we could also
+        use 'contains("30")' but to be safe (in case :15 shows)
+        we will just look for a colon (:)
+        */
         if (time.contains(",")){
+            //this top if statement is only for if we have 1 time
             String edit;
             String ntime[] = time.split("to");
-            if (ntime[0].contains(":")) { //do the same for span[1]
+            if (ntime[0].contains(":")) {
                 ntime[0] = removespace2(ntime[0]);
                 try {
                     dtime = (Date) colon.parse(ntime[0]);
@@ -148,6 +187,7 @@ public class CalParser {
                 ntime[0] = removespace2(ntime[0]);
                 try {
                     removespace2(ntime[0]);
+                    //adds the colon
                     dtime = (Date) stime.parse(ntime[0]);
                     String fix = stime12.format(dtime);
                     dtime = (Date) stime12.parse(fix);
@@ -164,7 +204,7 @@ public class CalParser {
             String span[] = time.split(" to ");
             span[0] = removespace2(span[0]);
             span[1] = removespace2(span[1]);
-            if (span[0].contains(":")) { //do the same for span[1]
+            if (span[0].contains(":")) {
                 try {
                     dtime = (Date) colon.parse(span[0]);
                     span[0] = ltime.format(dtime);
@@ -205,18 +245,6 @@ public class CalParser {
                     span[1] = removespace2(span[1]);
                     span[1] = removespace3(span[1]);
                     span[1] = noZero(span[1]);
-                    /*if (span[1].length() > 3) {
-                        span[1] = removespace3(span[1]);
-                        dtime = (Date) stime12.parse(span[1]);
-                        span[1] = ltime.format(dtime);
-
-                    }
-                    else {
-                        span[1] = removespace2(span[1]);
-                        //dtime = (Date) stime.parse(span[1]);
-                        //span[1] = ltime.format(dtime);
-                    }*/
-                    //dtime = (Date) stime.parse(span[1]);
 
                 }
                 catch(Exception e){
@@ -228,17 +256,22 @@ public class CalParser {
         }
     }
 
+    /*the code below is used to clean up the unneeded spaces, indents, and new lines*/
+
     public void remove(String word, String caltest){
+        //removes whatever we ask it to remove from a selected string
         while(caltest.contains(word)){
             caltest = caltest.replace(word, "");
         }
     }
     public void quotes(String caltest){
-        while(caltest.contains("&quot;")){
-            caltest = caltest.replace("&quot;", "");
-        }
+        //removes quotes
+        while(caltest.contains("quot")){
+                caltest = caltest.replace("quot", "");
     }
+}
     public String rmlines(String caltest){
+        //removes new lines
         while(caltest.contains("(\\r|\\n|)")||caltest.contains("\n")){
             caltest = caltest.replace("(\\r|\\n|)", "");
             caltest = caltest.replaceAll("\n", "");

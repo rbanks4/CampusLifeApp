@@ -2,47 +2,25 @@ package com.CampusLife.Campus_Life15;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.ShapeDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -51,9 +29,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -65,19 +40,18 @@ public class ClCalendar extends Activity {
     Cal limit is used to limit list of events we show.
      */
     Date date = new Date();
-
-    DateFormat day = new SimpleDateFormat("EEEE MMMM dd, yyyy  hh:mm:ss a");
     ImageView logo;
-    //int calLimit = 30;
+    //todo add to splashscreen class
     LinearLayout loadingLayout;
+    public SplashScreen splash;
+
     public String resString = " ";
     String caltest;
-    private WebView mWebView;
+    //todo remove this once class is moved
     String glURL = "https://www.google.com/calendar/feeds/dlc7torch%40gmail.com/private-7ee00fe08d8dd0be70fe658c2f363c7d/basic";
-    private TextView tview;
     XMLParser cutty = new XMLParser();
     Document caldoc;
-    private ProgressBar progress;
+    public ProgressDialog progress;
     ArrayList<CLEvent> elist = new ArrayList<CLEvent>();
     CalParser cparse = new CalParser();
     CalendarAdapter adapter;
@@ -86,27 +60,26 @@ public class ClCalendar extends Activity {
     ListView listview;
     String status;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cal2);
 
-        //tview = (TextView) findViewById(R.id.src);//use this to display our progress
-
-        //new GetXML().execute();
-
         //todo see if this works --------------------------------------it works!
-
+        //todo remove action bar if we aren't using it
         /*
         We make an action Bar to make sure we can go back to main,
         setup the UI, and initialize default values
          */
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //ActionBar actionBar = getActionBar();
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         LinearLayout activityLayout = new LinearLayout(this);
         RelativeLayout mainLayout = new RelativeLayout(this);
-        loadingLayout = new LinearLayout(this);
+
+        splash = new SplashScreen();
+        splash.setContext(this);
 
         adapter = new CalendarAdapter();
         adapter.setContext(this);
@@ -117,11 +90,6 @@ public class ClCalendar extends Activity {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT);
-        ll.gravity = Gravity.CENTER_HORIZONTAL;
-        ll.gravity = Gravity.CENTER_VERTICAL;
 
         mainLayout.setLayoutParams(ml);
         mainLayout.setVerticalScrollBarEnabled(true);
@@ -130,11 +98,6 @@ public class ClCalendar extends Activity {
         activityLayout.setLayoutParams(lp);
         activityLayout.setOrientation(LinearLayout.VERTICAL);
         activityLayout.setPadding(16, 16, 16, 16);//padding should be equal
-
-        loadingLayout.setLayoutParams(ll);
-        loadingLayout.setOrientation(LinearLayout.VERTICAL);
-        loadingLayout.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        loadingLayout.setBackgroundColor(0xff0e4c8b); //Clayton Blue
 
         ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -162,39 +125,34 @@ public class ClCalendar extends Activity {
         //listview.setPadding(0, 0, 0, 60);
 
         //this is the loading splash screen
-        logo = new ImageView(this);
-        logo.setImageResource(R.drawable.campuslife24);
-        progress = new ProgressBar(this);
-        //tview = new TextView(this);
-        //tview.setText("Loading...");
-        //tview.setPadding(8, 8, 8, 8);
-        //tview.setTextColor(0xffffffff);//basic white
-        //Animation loadingmovement = AnimationUtils.loadAnimation(this,R.anim.backacceldecel);
-        //tview.setAnimation(loadingmovement);
-        //tview.startAnimation(loadingmovement);
-        loadingLayout.addView(logo);
-        loadingLayout.addView(progress);
-        //loadingLayout.addView(tview);
-        mainLayout.addView(loadingLayout);
-        //setContentView(loadingLayout);//loading screen for now
-        new GetXML().execute();
+        splash.setImage(R.drawable.campuslife24);
+        progress = new ProgressDialog(this);
+        progress.setMax(100);
+        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progress.setMessage("Loading...");
+        splash.setProgress(progress);
+
+        //loadingLayout.addView(progress);
+        mainLayout.addView(splash.getSplash());
+
+        //run our background class
+        GetXML xmlThread = new GetXML();
+        xmlThread.setActivity(this);
+        xmlThread.execute();
 
         activityLayout.addView(listview);
-
         mainLayout.addView(activityLayout);
 
-        //mainLayout.setBackgroundColor(0xFF59B3DB);//that sky blue
-        //activityLayout.setBackgroundColor(0xFF59B3DB);//that sky blue
         //todo put the second content view somwhere after the background computation is done
         setContentView(mainLayout);
     }
-    //we don't use this
-    private class StableArrayAdapter extends ArrayAdapter<String> {
 
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
 
+    private class StableArrayAdapter extends ArrayAdapter<CLEvent> {
+
+        HashMap<CLEvent, Integer> mIdMap = new HashMap<>();
         public StableArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
+                                  List<CLEvent> objects) {
             super(context, textViewResourceId, objects);
             for (int i = 0; i < objects.size(); ++i) {
                 mIdMap.put(objects.get(i), i);
@@ -203,7 +161,7 @@ public class ClCalendar extends Activity {
 
         @Override
         public long getItemId(int position) {
-            String item = getItem(position);
+            CLEvent item = getItem(position);
             return mIdMap.get(item);
         }
 
@@ -242,61 +200,6 @@ public class ClCalendar extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    class GetXML extends AsyncTask<String, Void, String> {
-
-        private Exception exception;
-        //String resString = "wait on it...";
-        //TextView tview;
-
-
-        public GetXML() {
-            resString = "wait on it...";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            //tview.setVisibility(View.GONE);
-            progress.setVisibility(View.GONE);
-            logo.setVisibility(View.GONE);
-            loadingLayout.setVisibility(View.GONE);
-            //setContentView(R.layout.activity_calendar);
-            //tview.setText(result);
-            //progress.setVisibility(View.GONE);
-            build(result);
-        }
-
-        @Override
-        protected String doInBackground(String... url) {
-            try {
-                //show the status that it's loading
-                Thread.sleep(4000);
-
-                URL google = new URL(glURL);
-                HttpsURLConnection urlConnection = (HttpsURLConnection) google.openConnection();
-
-                InputStream is = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) // Read line by line
-                    sb.append(line + "\n");
-
-                resString = sb.toString(); // Result is here
-
-                is.close(); // Close the stream
-                urlConnection.disconnect();
-
-            } catch (InterruptedException e) {
-
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return resString;
-        }
-    }
 
     public void build(String res){
         //create a document to find all of the elements
@@ -334,6 +237,7 @@ public class ClCalendar extends Activity {
 
         //adds event list to adapter
         adapter.setObjects(elist);
+        //final StableArrayAdapter sAdapter = new StableArrayAdapter(this,R.layout.layout_calendar,elist);
         //makes a list view out of the adapter
         //todo: make animations for appearance of list view
         listview.setAdapter(adapter);
@@ -354,17 +258,5 @@ public class ClCalendar extends Activity {
 
         }
         return myList;
-    }
-
-    public class DateComparator implements Comparator<CLEvent> {
-        public int compare(CLEvent o1, CLEvent o2) {
-            if (o1.getDate().before(o2.getDate())) {
-                return -1;
-            } else if (o1.getDate().after(o2.getDate())) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
     }
 }
