@@ -11,6 +11,7 @@ android {
         targetSdkVersion 22
         versionCode 2 //version 2 made on 9/24/15 around 9:39 PM
         versionName "1.0"
+        multiDexEnabled  true
     }
     signingConfigs {
         release {
@@ -31,11 +32,14 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.google.android.gms:play-services:7.3.0'
     compile 'com.google.api-client:google-api-client:1.20.0'
     compile 'com.google.api-client:google-api-client-android:1.20.0'
     compile 'com.google.api-client:google-api-client-gson:1.20.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev125-1.20.0'
-    compile 'com.f2prateek.progressbutton:progressbutton:(insert latest version)@aar'
+    //compile files('src/ical4j-2.0-beta-sources.jar')
+    compile files('libs/ical4j-2.0-beta1-javadoc.jar')
+    compile files('libs/ical4j-2.0-beta1.jar')
 }

@@ -8,88 +8,73 @@ import java.text.SimpleDateFormat;
 
 public class CLEvent {
 
-    private String prop0;
-    private String prop1;
-    private String prop2;
-    private String prop3;
+    private String m_date;
+    private String m_title;
+    private String m_time;
+    private String m_location;
     //private String prop4;
-    private String prop5;
+    private String m_description;
     //private String mdate;
     private ViewFlipper flip;
     public int color;
 
     DateFormat fday = new SimpleDateFormat("EEE MMM dd, yyyy");//this is how it should come out
+    DateFormat yearday = new SimpleDateFormat("yyyyMMdd");
+    DateFormat colon = new SimpleDateFormat ("hh:mmaa");
     DateFormat tday = new SimpleDateFormat("HH:mm:ss");
-    Date date;
+    SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
+    Date date, endDate;
 
 
-    public CLEvent(String prop0, String prop1, String prop2, String prop3, String prop5) {
-        this.prop0 = prop0;//date
+
+    public CLEvent(String sdate, String title, String edate, String location, String description) {
+        this.m_date = sdate;//date
         try {
-            date = (Date) fday.parse(prop0);//now we should be able to sort
-            this.prop0 = fday.format(prop0);//update with the new date
+            if (m_date.length() < 9)
+                date = yearday.parse(m_date);
+            else
+                date = dateFormat.parse(sdate);//now we should be able to sort
+            this.m_date = fday.format(date);//update with the new date
+
+            //now we set the time
+            if(endDate != null) {
+                if(edate.length() < 9) {
+                    this.m_time = "All Day";
+                }
+                else {
+                    endDate = dateFormat.parse(edate);
+                    this.m_time = colon.format(date) + " - " + colon.format(edate);
+                }
+            }
+            else
+                this.m_time = colon.format(date);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        this.prop1 = prop1;//title
-        if (prop2 != null) {
-            this.prop2 = prop2;//time
+        this.m_title = title;//title
+
+        if (location != null) {
+            this.m_location = location;//location
         }
-        else{this.prop2 = "All Day";}
-        if (prop3 != null) {
-            this.prop3 = prop3;//location
-        }
-        else{this.prop3 = " ";}
+        else{this.m_location = " ";}
         //this.prop4 = prop4;//sponsor
-        if(prop5 != null) {
-            this.prop5 = prop5;//description
+        if(description != null) {
+            this.m_description = description;//description
         }
         else{
-            this.prop5 = "No description available";
-        }
-        checkColor();
-    }
-    public CLEvent(String prop0, String prop1){//reserved for all day events
-        this.prop0 = prop0;//date
-        this.prop1 = prop5 = prop1;//title
-        prop2 = "All Day";
-        prop3 = " ";
-        checkColor();
-    }
-    public CLEvent(String prop0, String prop1, String prop5){//reserved for all day events
-        this.prop0 = prop0;//date
-        this.prop1 = prop1;//title
-        prop2 = "All Day";
-        prop3 = " ";
-        if (prop5 == null){
-            this.prop5 = "No description available.";
-        }
-        else {
-            this.prop5 = prop5;//desc
-        }
-        checkColor();
-    }
-    public CLEvent(String prop0, String prop1, String prop2, String prop5){//all day events with location
-        this.prop0 = prop0;//date
-        this.prop1 = prop1;//title
-        this.prop2 = prop2;//location
-        prop3 = "All Day";
-        if (prop5 == null){
-            this.prop5 = "No description available.";
-        }
-        else {
-            this.prop5 = prop5;//desc
+            this.m_description = "No description available";
         }
         checkColor();
     }
 
+
     private void checkColor(){
-        if (prop1.contains("No Classes") || prop1.contains("no classes")
-                || prop1.contains("No Class") || prop1.contains("no class")){//check the title name for "No Classes
+        if (m_title.contains("No Classes") || m_title.contains("no classes")
+                || m_title.contains("No Class") || m_title.contains("no class")){//check the title name for "No Classes
             color = 0xff000000;//black for no classes
         }
-        else if ((prop2 == "All Day") || (prop3 == "All Day")){
+        else if ((m_time == "All Day") || (m_location == "All Day")){
             color = 0xfff4821f;//orange for all day
         }
         else{
@@ -97,25 +82,25 @@ public class CLEvent {
         }
     }
 
-    public String getProp0() { return prop0; }
+    public String getDateString() { return m_date; }
 
     public Date getDate() { return date; }
 
-    public String getProp1() {
-        return prop1;
+    public String getTitle() {
+        return m_title;
     }
 
-    public String getProp2() {
-        return prop2;
+    public String getTime() {
+        return m_time;
     }
 
-    public String getProp3() {
-        return prop3;
+    public String getLocation() {
+        return m_location;
     }
 
     //public String getProp4() { return prop4; }
 
-    public String getProp5() { return prop5; }
+    public String getDescription() { return m_description; }
 
     public ViewFlipper getFlip() { return flip; }
 

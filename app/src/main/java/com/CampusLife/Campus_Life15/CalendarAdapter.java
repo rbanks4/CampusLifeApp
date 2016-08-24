@@ -85,12 +85,12 @@ public class CalendarAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.linearLayout.setBackgroundColor(getItem(position).color);
-        holder.textView0.setText(objects.get(position).getProp0());
-        holder.textView1.setText(objects.get(position).getProp1());
-        holder.textView2.setText(objects.get(position).getProp2());
-        holder.textView3.setText(objects.get(position).getProp3());
+        holder.textView0.setText(objects.get(position).getDateString());
+        holder.textView1.setText(objects.get(position).getTitle());
+        holder.textView2.setText(objects.get(position).getTime());
+        holder.textView3.setText(objects.get(position).getLocation());
         //holder.textView4.setText(objects.get(position).getProp4());
-        holder.textView5.setText(objects.get(position).getProp5());
+        holder.textView5.setText(objects.get(position).getDescription());
         //objects.get(position).setFlip(holder.flippy);
         return convertView;
     }

@@ -7,12 +7,14 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
@@ -23,8 +25,15 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,6 +41,7 @@ import java.io.StringReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -62,7 +72,8 @@ public class ClCalendar extends Activity {
     public String resString = " ";
     String caltest;
     private WebView mWebView;
-    String glURL = "https://www.google.com/calendar/feeds/dlc7torch%40gmail.com/private-7ee00fe08d8dd0be70fe658c2f363c7d/basic";
+    //String glURL = "https://www.google.com/calendar/feeds/dlc7torch%40gmail.com/private-7ee00fe08d8dd0be70fe658c2f363c7d/basic";
+    String glURL = "https://calendar.google.com/calendar/ical/p3anutbj7%40gmail.com/public/basic.ics";
     private TextView tview;
     XMLParser cutty = new XMLParser();
     Document caldoc;
@@ -73,10 +84,13 @@ public class ClCalendar extends Activity {
     //private final int progr[]  = {30, 15, 20, 25, 20};
     private int index;
     ListView listview;
+    private net.fortuna.ical4j.model.Calendar m_calendar;
+    private static final String CAL_LOG = "Calendar";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //setContentView(R.layout.activity_calendar);
         setContentView(R.layout.activity_cal2);
 
@@ -244,9 +258,9 @@ public class ClCalendar extends Activity {
 
         @Override
         protected String doInBackground(String... url) {
+            String filename = "calendar.ics";
+            FileOutputStream outputStream;
             try {
-
-
 
                 Thread.sleep(4000);
 
@@ -275,44 +289,144 @@ public class ClCalendar extends Activity {
                 e.printStackTrace();
             }
 
+            try {
+                File ocalFile = new File(Environment.getExternalStorageDirectory(), filename);
+                //outputStream = openFileOutput(calFile);
+                outputStream = new FileOutputStream(ocalFile);
+                outputStream.write(resString.getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            try {
+                File icalFile = new File(Environment.getExternalStorageDirectory(), filename);
+                FileInputStream fin = new FileInputStream(icalFile);
+                readFile(icalFile);
+                events.get(0);
+//                CalendarBuilder builder = new CalendarBuilder();
+//                m_calendar = builder.build(fin);
+            } catch (Exception e){
+                Log.e("ERROR", "could not find calendar file", e);
+                e.printStackTrace();
+            }
+
             return resString;
         }
 
 
 
     }
+    private String splitLine(String line){
+        String[] splitter = line.split(":");
+        if(splitter.length > 1){
+            return splitter[1];
+        }
+        else
+            return "";
+    }
+
+    List<Event> events = new ArrayList<Event>();
+    public void readFile(File file){
+
+        Log.i(CAL_LOG,"inside of readFile");
+        int count = 0;
+        int eventNum = 0;
+        String[] splitter;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            Log.i(CAL_LOG, "made it into the try data");
+            while ((line = br.readLine()) != null) {
+                Log.i(CAL_LOG, "trying to read line:" + line + " where count is:" + count);
+                switch(count){
+                    case(1):
+                        Event a = new Event();
+                        a.setStartDate(splitLine(line));
+                        events.add(a);
+                        count++;
+                        break;
+                    case(2):
+                        events.get(eventNum).setEndDate(splitLine(line));
+                        count++;
+                        break;
+                    case(6):
+                        events.get(eventNum).setDescription(splitLine(line));
+                        count++;
+                        break;
+                    case(8):
+                        events.get(eventNum).setLocation(splitLine(line));
+                        count++;
+                        break;
+                    case(11):
+                        events.get(eventNum).setSummary(splitLine(line));
+                        count++;
+                        break;
+                    case(3):
+                    case(4):
+                    case(5):
+                    case(7):
+                    case(9):
+                    case(10):
+                        count++;
+                        break;
+                    case(12):
+                        count = 0;
+                        eventNum++;
+                        break;
+                    default:
+                        //process the line
+                        if(line.contains("BEGIN:VEVENT"))
+                        {
+                            count++;
+                        }
+                        continue;
+                }
+
+            }
+        }
+        catch(Exception e){
+            Log.i("ERROR", "could not find calendar file", new Exception());
+        }
+    }
 
     public void build(String res){
         //create a document to find all of the elements
-        caldoc = cutty.getDomElement(res);//makes the document
-        caldoc.getDocumentElement().normalize();
-        NodeList nList = caldoc.getElementsByTagName("entry");//makes a list of nodes
-        caltest = " ";//now that we have our doc, we can clear it
+//        caldoc = cutty.getDomElement(res);//makes the document
+//        caldoc.getDocumentElement().normalize();
+//        NodeList nList = caldoc.getElementsByTagName("entry");//makes a list of nodes
+//        caltest = " ";//now that we have our doc, we can clear it
 
-        for (int temp = 0; temp < nList.getLength(); temp++) {//todo split data into bite sized events
-            Node nNode = nList.item(temp);
-            caltest.concat("\nCurrent Element :"
-                    + nNode.getNodeName());
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {//logic returning somthing else
-                Element eElement = (Element) nNode;
-                    /*resString.concat("Title : "
-                            + eElement.getAttribute("rollno"));*/
-                String Title = (eElement.getElementsByTagName("title").item(0).getTextContent()
-                        +"\n");
-
-                //Log.w("myApp", caltest);
-                String Summary = (eElement.getElementsByTagName("summary").item(0).getTextContent()
-                        +"\n");
-                //List<String> desc = new ArrayList<String>(cparse.fixSummary(Summary));
-                String[] changes = cparse.fixSummary(Summary);
-                //desc.toArray(changes);
-
-                CLEvent event = new CLEvent(changes[0], Title, changes[1], changes[2], changes[3]);
-                //Log.w("myApp", "event with 5 elements: " + changes[0] + Title + changes[1] + changes[2] + changes[3]);
+//        for (int temp = 0; temp < nList.getLength(); temp++) {//todo split data into bite sized events
+//            Node nNode = nList.item(temp);
+//            caltest.concat("\nCurrent Element :"
+//                    + nNode.getNodeName());
+//            if (nNode.getNodeType() == Node.ELEMENT_NODE) {//logic returning somthing else
+//                Element eElement = (Element) nNode;
+//                    /*resString.concat("Title : "
+//                            + eElement.getAttribute("rollno"));*/
+//                String Title = (eElement.getElementsByTagName("title").item(0).getTextContent()
+//                        +"\n");
+//
+//                //Log.w("myApp", caltest);
+//                String Summary = (eElement.getElementsByTagName("summary").item(0).getTextContent()
+//                        +"\n");
+//                //List<String> desc = new ArrayList<String>(cparse.fixSummary(Summary));
+//                String[] changes = cparse.fixSummary(Summary);
+//                //desc.toArray(changes);
+//
+//                CLEvent event = new CLEvent(changes[0], Title, changes[1], changes[2], changes[3]);
+//                //Log.w("myApp", "event with 5 elements: " + changes[0] + Title + changes[1] + changes[2] + changes[3]);
+//                elist.add(event);
+//            }
+//
+//        }
+        for (Event e : events){
+            if (e.getSummary().length() > 1) {
+                CLEvent event = new CLEvent(e.getStartDate(), e.getSummary(), e.getEndDate(), e.getLocation(), e.getDescription());
                 elist.add(event);
-
             }
-
         }
 
 
@@ -322,7 +436,8 @@ public class ClCalendar extends Activity {
         //onPostExecute(resString);
         //progress.setVisibility(View.GONE);
         //Collections.sort(elist);
-        Collections.sort(elist, new DateComparator());
+        //TODO fix this in due time
+//        Collections.sort(elist, new DateComparator());
         adapter.setObjects(elist);
         listview.setAdapter(adapter);
         //tview.setText(caltest);
@@ -338,13 +453,16 @@ public class ClCalendar extends Activity {
     //todo if this works, delete the other sort function
     public class DateComparator implements Comparator<CLEvent> {
         public int compare(CLEvent o1, CLEvent o2) {
-            if (o1.getDate().before(o2.getDate())) {
-                return -1;
-            } else if (o1.getDate().after(o2.getDate())) {
-                return 1;
-            } else {
-                return 0;
+            if (o1.getDate() != null && o2.getDate() != null) {
+                if (o1.getDate().before(o2.getDate())) {
+                    return -1;
+                } else if (o1.getDate().after(o2.getDate())) {
+                    return 1;
+                } else {
+                    return 0;
+                }
             }
+            return 0;
         }
     }
 

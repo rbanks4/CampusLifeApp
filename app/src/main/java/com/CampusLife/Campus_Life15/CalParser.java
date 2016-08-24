@@ -126,7 +126,7 @@ public class CalParser {
             if (ntime[0].contains(":")) { //do the same for span[1]
                 ntime[0] = removespace2(ntime[0]);
                 try {
-                    dtime = (Date) colon.parse(ntime[0]);
+                    dtime = colon.parse(ntime[0]);
                     ntime[0] = ltime.format(dtime);
                 }
                 catch(Exception e){
@@ -138,9 +138,9 @@ public class CalParser {
                 ntime[0] = removespace2(ntime[0]);
                 try {//todo add condition for 12
                     removespace2(ntime[0]);
-                    dtime = (Date) stime.parse(ntime[0]);
+                    dtime = stime.parse(ntime[0]);
                     String fix = stime12.format(dtime);
-                    dtime = (Date) stime12.parse(fix);
+                    dtime = stime12.parse(fix);
                     ntime[0] = ltime.format(dtime);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -155,7 +155,7 @@ public class CalParser {
             span[1] = removespace2(span[1]);
             if (span[0].contains(":")) { //do the same for span[1]
                 try {
-                    dtime = (Date) colon.parse(span[0]);
+                    dtime = colon.parse(span[0]);
                     span[0] = ltime.format(dtime);
                 }
                 catch(Exception e){
@@ -166,10 +166,10 @@ public class CalParser {
                 try {
                     if (span[0].length() > 3) {
                         span[0] = removespace3(span[0]);
-                        dtime = (Date) stime12.parse(span[0]);
+                        dtime = stime12.parse(span[0]);
                     }
                     else {
-                        dtime = (Date) stime.parse(span[0]);
+                        dtime = stime.parse(span[0]);
                         span[0] = ltime.format(dtime);
                     }
                 }
@@ -179,7 +179,7 @@ public class CalParser {
             }
             if (span[0].contains(":")) { //todo finish span[1]
                 try {
-                    dtime = (Date) colon.parse(span[1]);
+                    dtime = colon.parse(span[1]);
                     span[1] = ltime.format(dtime);
                 }
                 catch(Exception e){
@@ -238,7 +238,7 @@ public class CalParser {
             caltest = caltest.replaceAll("(\\r|\\n)", "");
         }
         try {
-            dtime = (Date) stime.parse(caltest);
+            dtime = stime.parse(caltest);
             caltest = ltime.format(dtime);
         }
         catch(Exception e){
@@ -256,7 +256,7 @@ public class CalParser {
             caltest = caltest.replaceAll("(\\r|\\n)", "");
         }
         try {
-            dtime = (Date) stime.parse(caltest);
+            dtime = stime.parse(caltest);
             caltest = ltime.format(dtime);
             Log.w("BeforeA", "SUCCESS: "+caltest);
         }
@@ -276,7 +276,7 @@ public class CalParser {
             caltest = caltest.replaceAll("(\\r|\\n)", "");
         }
         try {
-            dtime = (Date) stime12.parse(caltest);
+            dtime = stime12.parse(caltest);
             caltest = ltime.format(dtime);
             Log.w("BeforeA", "SUCCESS: "+caltest);
         }
