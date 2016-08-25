@@ -318,16 +318,20 @@ public class ClCalendar extends Activity {
 
 
     }
-    private String splitLine(String line){
-        String[] splitter = line.split(":");
-        if(splitter.length > 1){
+    private String splitLine(String line, boolean second){
+        String[] splitter = line.split(":",2);
+        if(splitter.length > 1 && second){
             return splitter[1];
         }
+        else if (!second)
+            return splitter[0];
         else
             return "";
     }
 
     List<Event> events = new ArrayList<Event>();
+    boolean wakeup = false; //tells us weather or not we should be reading an event
+    boolean m_desc_flag_on = false;
     public void readFile(File file){
 
         Log.i(CAL_LOG,"inside of readFile");
@@ -340,48 +344,52 @@ public class ClCalendar extends Activity {
             Log.i(CAL_LOG, "made it into the try data");
             while ((line = br.readLine()) != null) {
                 Log.i(CAL_LOG, "trying to read line:" + line + " where count is:" + count);
-                switch(count){
-                    case(1):
-                        Event a = new Event();
-                        a.setStartDate(splitLine(line));
-                        events.add(a);
-                        count++;
-                        break;
-                    case(2):
-                        events.get(eventNum).setEndDate(splitLine(line));
-                        count++;
-                        break;
-                    case(6):
-                        events.get(eventNum).setDescription(splitLine(line));
-                        count++;
-                        break;
-                    case(8):
-                        events.get(eventNum).setLocation(splitLine(line));
-                        count++;
-                        break;
-                    case(11):
-                        events.get(eventNum).setSummary(splitLine(line));
-                        count++;
-                        break;
-                    case(3):
-                    case(4):
-                    case(5):
-                    case(7):
-                    case(9):
-                    case(10):
-                        count++;
-                        break;
-                    case(12):
-                        count = 0;
-                        eventNum++;
-                        break;
-                    default:
-                        //process the line
-                        if(line.contains("BEGIN:VEVENT"))
-                        {
+                //process the line
+                if(line.contains("BEGIN:VEVENT"))
+                {
+                    wakeup = true;
+                }
+                else if(line.contains("END:VEVENT")) {
+                    wakeup = false;
+                    eventNum++;
+                }
+
+                if (wakeup) {
+                    String tag = splitLine(line,false);
+                    switch (tag) {
+                        case ("DTSTART"):
+                        case ("DTSTART;VALUE=DATE"):
+                            Event a = new Event();
+                            a.setStartDate(splitLine(line, true));
+                            events.add(a);
                             count++;
-                        }
-                        continue;
+                            break;
+                        case ("DTEND"):
+                        case("DTEND;VALUE=DATE"):
+                            events.get(eventNum).setEndDate(splitLine(line, true));
+                            count++;
+                            break;
+                        case ("DESCRIPTION"):
+                            events.get(eventNum).setDescription(splitLine(line, true));
+                            m_desc_flag_on = true;
+                            count++;
+                            break;
+                        case ("LOCATION"):
+                            events.get(eventNum).setLocation(splitLine(line, true));
+                            count++;
+                            break;
+                        case ("SUMMARY"):
+                            events.get(eventNum).setSummary(splitLine(line, true));
+                            count++;
+                            break;
+                        case("LAST-MODIFIED"):
+                            m_desc_flag_on = false;
+                            break;
+                        default:
+                            if(m_desc_flag_on)
+                                events.get(eventNum).setDescription(events.get(eventNum).getDescription() + splitLine(line, true));
+                            continue;
+                    }
                 }
 
             }

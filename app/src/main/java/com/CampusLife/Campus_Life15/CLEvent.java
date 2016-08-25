@@ -17,6 +17,7 @@ public class CLEvent {
     //private String mdate;
     private ViewFlipper flip;
     public int color;
+    boolean allday, allnight = false;
 
     DateFormat fday = new SimpleDateFormat("EEE MMM dd, yyyy");//this is how it should come out
     DateFormat yearday = new SimpleDateFormat("yyyyMMdd");
@@ -30,23 +31,25 @@ public class CLEvent {
     public CLEvent(String sdate, String title, String edate, String location, String description) {
         this.m_date = sdate;//date
         try {
-            if (m_date.length() < 9)
+            if (m_date.length() < 9) {
+                // if it's just the year and day
                 date = yearday.parse(m_date);
+                allday = true;
+                if (edate.length() < 9) {
+                    m_time = "All Day";
+                    allnight = true;
+                }
+            }
             else
                 date = dateFormat.parse(sdate);//now we should be able to sort
             this.m_date = fday.format(date);//update with the new date
 
             //now we set the time
-            if(endDate != null) {
-                if(edate.length() < 9) {
-                    this.m_time = "All Day";
-                }
-                else {
-                    endDate = dateFormat.parse(edate);
-                    this.m_time = colon.format(date) + " - " + colon.format(edate);
-                }
+            if(!allday && !allnight) {
+                endDate = dateFormat.parse(edate);
+                this.m_time = colon.format(date) + " - " + colon.format(endDate);
             }
-            else
+            else if (allday)
                 this.m_time = colon.format(date);
         }
         catch (Exception e){
