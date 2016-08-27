@@ -33,8 +33,7 @@
 
     <string name="Shondo"><b>LaShanda Hardin</b></string>
     <string name="ShondoPos"><b>Program Coordinator</b></string>
-    <string name="ShondoBio">
-        LaShanda is our service learning, community outreach, and civic engagement expert.
+    <string name="ShondoBio">LaShanda is our service learning, community outreach, and civic engagement expert.
         She coordinates service based programs for the student body and faculty. Ms. LaShanda advises
         Habitat for Humanity (nicknamed: \'abitat) and S.A.A.S. (Student African American Sisterhood).
         <u>LaShandaHardin@clayton.edu</u>
@@ -42,8 +41,7 @@
 
     <string name="Jen"><b>Jennifer Welch</b></string>
     <string name="JenPos"><b>AmeriCorps Program Coordinator</b></string>
-    <string name="JenBio">
-        Jen is in charge of the CSU AmeriCorps program which holds over 30 active students;
+    <string name="JenBio">Jen is in charge of the CSU AmeriCorps program which holds over 30 active students;
         each serve the community in order to reach their goal of 900 service hours. Jen advises
         Alpha Phi Omega National Service Fraternity.
         <u>JenniferWelch@clayton.edu</u>
@@ -51,16 +49,14 @@
 
     <string name="Royal"><b>Atawanna Royal</b></string>
     <string name="RoyalPos"><b>Assistant Director</b></string>
-    <string name="RoyalBio">
-        Royal (preferred addressing) coordinates and organizes all recognized student organizations
+    <string name="RoyalBio">Royal (preferred addressing) coordinates and organizes all recognized student organizations
         on campus. She is the creator of the RESET program and advisor of CEC (Campus Events Council).
         <u>AtawannaRoyal@clayton.edu</u>
     </string>
 
     <string name="Amber"><b>Amber Cutter</b></string>
     <string name="AmberPos"><b>Events Coordinator</b></string>
-    <string name="AmberBio">
-        Amber coordinates reservations for events from internal and external clients.
+    <string name="AmberBio">Amber coordinates reservations for events from internal and external clients.
         <u>AmberCutter@clayton.edu</u>
     </string>
 

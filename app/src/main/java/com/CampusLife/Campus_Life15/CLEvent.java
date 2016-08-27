@@ -1,12 +1,15 @@
 package com.CampusLife.Campus_Life15;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 import android.widget.ViewFlipper;
 
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class CLEvent {
+public class CLEvent implements Parcelable {
 
     private String m_date;
     private String m_title;
@@ -24,6 +27,7 @@ public class CLEvent {
     DateFormat colon = new SimpleDateFormat ("hh:mmaa");
     DateFormat tday = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
+    SimpleDateFormat dateFormatNoZ = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
     Date date, endDate;
 
 
@@ -40,16 +44,17 @@ public class CLEvent {
                     allnight = true;
                 }
             }
-            else
-                date = dateFormat.parse(sdate);//now we should be able to sort
+            else {
+                date = dateFormatter(sdate);
+            }
             this.m_date = fday.format(date);//update with the new date
 
             //now we set the time
-            if(!allday && !allnight) {
-                endDate = dateFormat.parse(edate);
+            if(!allday && !allnight && (edate != null)) {
+                endDate = dateFormatter(edate);
                 this.m_time = colon.format(date) + " - " + colon.format(endDate);
             }
-            else if (allday)
+            else if (allday && !allnight)
                 this.m_time = colon.format(date);
         }
         catch (Exception e){
@@ -71,6 +76,19 @@ public class CLEvent {
         checkColor();
     }
 
+    private Date dateFormatter(String dateString) {
+        try {
+            //if the string contains 'Z', we format it normally
+            if (dateString.indexOf('Z') >= 0)
+                return dateFormat.parse(dateString);//now we should be able to sort
+            else
+                return dateFormatNoZ.parse(dateString);
+        }
+        catch (Exception e){
+            Log.i("Parsing issue", "cannot parse date properly", e);
+            return null;
+        }
+    }
 
     private void checkColor(){
         if (m_title.contains("No Classes") || m_title.contains("no classes")
@@ -108,5 +126,32 @@ public class CLEvent {
     public ViewFlipper getFlip() { return flip; }
 
     public void setFlip(ViewFlipper f){this.flip = f; }
+
+    private int mData;
+
+    public int describeContents() {
+        return 0;
+    }
+
+    /** save object in parcel */
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mData);
+    }
+
+    public static final Parcelable.Creator<CLEvent> CREATOR
+            = new Parcelable.Creator<CLEvent>() {
+        public CLEvent createFromParcel(Parcel in) {
+            return new CLEvent(in);
+        }
+
+        public CLEvent[] newArray(int size) {
+            return new CLEvent[size];
+        }
+    };
+
+    /** recreate object from parcel */
+    private CLEvent(Parcel in) {
+        mData = in.readInt();
+    }
 
 }

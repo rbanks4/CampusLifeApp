@@ -39,7 +39,4 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.20.0'
     compile 'com.google.api-client:google-api-client-gson:1.20.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev125-1.20.0'
-    //compile files('src/ical4j-2.0-beta-sources.jar')
-    compile files('libs/ical4j-2.0-beta1-javadoc.jar')
-    compile files('libs/ical4j-2.0-beta1.jar')
 }
