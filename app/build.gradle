@@ -9,8 +9,8 @@ android {
         applicationId "com.CampusLife.Campus_Life15"
         minSdkVersion 11
         targetSdkVersion 22
-        versionCode 2 //version 2 made on 9/24/15 around 9:39 PM
-        versionName "1.0"
+        versionCode 6 //version 6 made on 8/27/16 around 2:48 PM
+        versionName "1.1"
         multiDexEnabled  true
     }
     signingConfigs {
@@ -19,7 +19,6 @@ android {
             storePassword "1Msosexy"
             keyAlias "campuslife"
             keyPassword "1Msosexy"
-
         }
     }
     buildTypes {

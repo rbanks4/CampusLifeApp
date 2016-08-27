@@ -44,7 +44,7 @@ import org.w3c.dom.Document;
 
 import javax.net.ssl.HttpsURLConnection;
 
-
+//TODO prevent the user from rotating the screen
 public class ClCalendar extends Activity {
 
     /*
@@ -162,14 +162,14 @@ public class ClCalendar extends Activity {
 
         setContentView(mainLayout);
 
-        //note we also want to check if the file already exist
-        if(savedInstanceState != null) {
-            elist.clear();
-            elist = (ArrayList<CLEvent>) savedInstanceState.get(CAL_LIST);
-            adapter.setObjects(elist);
-            listview.setAdapter(null);
-            listview.setAdapter(adapter);
-        }
+//        //note we also want to check if the file already exist
+//        if(savedInstanceState != null) {
+//            elist.clear();
+//            elist = (ArrayList<CLEvent>) savedInstanceState.get(CAL_LIST);
+//            adapter.setObjects(elist);
+//            listview.setAdapter(null);
+//            listview.setAdapter(adapter);
+//        }
 
     }
     //we don't use this
