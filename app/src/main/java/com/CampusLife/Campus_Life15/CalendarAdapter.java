@@ -11,7 +11,7 @@ import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 
-//Reg: this class is created in order to customize our adapter for data design purposes
+//Reg: this class is created in order to customize our adapter for data design purposes...
 public class CalendarAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
