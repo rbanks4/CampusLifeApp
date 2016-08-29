@@ -1,0 +1,103 @@
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    tools:context="com.CampusLife.Campus_Life15.ClCalendar"
+    android:dividerPadding="2dp"
+    android:layout_weight="1">
+
+
+
+    <ViewFlipper
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/flippy"
+        android:outAnimation="@anim/fadeleft"
+        android:inAnimation="@anim/fadeinleft"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="#0e4c8b"
+            android:divider="#f4821f"
+            android:id="@+id/bar">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2">
+                <TextView
+                    android:id="@+id/date"
+                    android:text="@string/date"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/textview1"
+                    android:text="Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff" />
+                <TextView
+                    android:id="@+id/textview2"
+                    android:text="Time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff" />
+                <TextView
+                    android:id="@+id/textview3"
+                    android:text="Location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#f4821f"
+                    android:layout_weight="1" />
+                <!--<TextView
+                    android:id="@+id/textview4"
+                    android:text="Sponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff" />-->
+
+            </LinearLayout>
+        </LinearLayout>
+        <!-- this will show when clicked-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/textview5"
+                android:text="Information not available." />
+
+
+        </LinearLayout>
+
+    </ViewFlipper>
+
+
+</LinearLayout>
