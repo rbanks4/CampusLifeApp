@@ -172,6 +172,32 @@ public class ClCalendar extends Activity {
 //        }
 
     }
+    //we don't use this
+    private class StableArrayAdapter extends ArrayAdapter<String> {
+
+        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+
+        public StableArrayAdapter(Context context, int textViewResourceId,
+                                  List<String> objects) {
+            super(context, textViewResourceId, objects);
+            for (int i = 0; i < objects.size(); ++i) {
+                mIdMap.put(objects.get(i), i);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            String item = getItem(position);
+            return mIdMap.get(item);
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -195,7 +221,7 @@ public class ClCalendar extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-    // TODO delete Cal() if it has no real use
+// TODO delete Cal() if it has no real use
     public void Cal(){
         //Reg: we use Intent to call a new activity
         TextView textViewToChange = (TextView) findViewById(R.id.date);
@@ -234,9 +260,11 @@ public class ClCalendar extends Activity {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-                while ((line = reader.readLine()) != null) // Read line by line
+                eventNum = 0;
+                while ((line = reader.readLine()) != null) { // Read line by line
                     sb.append(line + "\n");
-
+                    parseCalLine(line);
+                }
                 resString = sb.toString(); // Result is here
 
                 is.close(); // Close the stream
@@ -244,6 +272,8 @@ public class ClCalendar extends Activity {
 
                 if(resString.length() > 0)
                     writeToFile(resString);
+
+                return resString;
 
             } catch (InterruptedException e) {
                 //this is assuming the file exist
@@ -253,7 +283,9 @@ public class ClCalendar extends Activity {
             } catch (Exception e) {
                 Log.e(CAL_LOG, "not able to write file",e);
             }
+
             if(isFileAvailable(filename)){
+                eventNum = 0;
                 setupListFromFile(filename);
             }
 
@@ -279,6 +311,7 @@ public class ClCalendar extends Activity {
         outputStream.write(data.getBytes());
         outputStream.close();
     }
+
     private void setupListFromFile(String filename){
         try {
             File icalFile = new File(Environment.getExternalStorageDirectory(), filename);
@@ -307,83 +340,88 @@ public class ClCalendar extends Activity {
     boolean wakeup = false; //tells us weather or not we should be reading an event
     boolean skipping = false;
     boolean m_desc_flag_on = false;
+    int eventNum = 0;
     public void readFile(File file){
 
         Log.i(CAL_LOG,"inside of readFile where filesize is: " + file.getTotalSpace());
-        int eventNum = 0;
+
         String[] splitter;
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             String temp_desc = null;
             Log.i(CAL_LOG, "made it into the try data");
-            while ((line = br.readLine()) != null) {
-                Log.i(CAL_LOG, "trying to read line:" + line + " where count is:" + eventNum);
-                //process the line
-                if(line.equals("BEGIN:VEVENT"))
-                {
-                    wakeup = true;
-                }
-                else if(line.equals("END:VEVENT")) {
-                    wakeup = false;
-                    if (!skipping)
-                        eventNum++;
-                    else
-                        skipping = false;
-                }
-
-                if (wakeup) {
-                    String tag = splitLine(line,false);
-                    String data = splitLine(line,true);
-                    switch (tag) {
-                        case ("DTSTART;TZID=America/New_York"):
-                            //we don't want to process this...it's too much to carry
-                            wakeup = false;
-                            skipping = true;
-                            break;
-                        case ("DTSTART"):
-                        case ("DTSTART;VALUE=DATE"):
-                            Event a = new Event();
-                            a.setStartDate(data);
-                            events.add(a);
-                            break;
-                        case ("DTEND"):
-                        case ("DTEND;VALUE=DATE"):
-                            events.get(eventNum).setEndDate(data);
-                            break;
-                        case ("DESCRIPTION"):
-                            events.get(eventNum).setDescription(data);
-                            m_desc_flag_on = true;
-                            break;
-                        case ("LOCATION"):
-                            events.get(eventNum).setLocation(data);
-                            break;
-                        case ("SUMMARY"):
-                            events.get(eventNum).setSummary(data);
-                            break;
-                        case ("LAST-MODIFIED"):
-                            m_desc_flag_on = false;
-                            break;
-                        case ("DTSTAMP"):
-                        case ("UID"):
-                        case ("CREATED"):
-                            break;
-                        default:
-                            if(m_desc_flag_on && events.get(eventNum).getDescription().length() > 0) {
-                                String first = events.get(eventNum).getDescription();
-                                events.get(eventNum).setDescription(first + tag);
-                            }
-                            break;
-                    }
-                }
-
-            }
+            while ((line = br.readLine()) != null)
+                parseCalLine(line);
         }
         catch(Exception e){
             Log.i("ERROR", "could not find calendar file", e);
         }
     }
 
+    public void parseCalLine(String line){
+        {
+            Log.i(CAL_LOG, "trying to read line:" + line + " where count is:" + eventNum);
+            //process the line
+            if(line.equals("BEGIN:VEVENT"))
+            {
+                wakeup = true;
+            }
+            else if(line.equals("END:VEVENT")) {
+                wakeup = false;
+                if (!skipping)
+                    eventNum++;
+                else
+                    skipping = false;
+            }
+
+            if (wakeup) {
+                String tag = splitLine(line,false);
+                String data = splitLine(line,true);
+                switch (tag) {
+                    case ("DTSTART;TZID=America/New_York"):
+                        //we don't want to process this...it's too much to carry
+                        wakeup = false;
+                        skipping = true;
+                        break;
+                    case ("DTSTART"):
+                    case ("DTSTART;VALUE=DATE"):
+                        Event a = new Event();
+                        a.setStartDate(data);
+                        events.add(a);
+                        break;
+                    case ("DTEND"):
+                    case ("DTEND;VALUE=DATE"):
+                        events.get(eventNum).setEndDate(data);
+                        break;
+                    case ("DESCRIPTION"):
+                        events.get(eventNum).setDescription(data);
+                        m_desc_flag_on = true;
+                        break;
+                    case ("LOCATION"):
+                        events.get(eventNum).setLocation(data);
+                        break;
+                    case ("SUMMARY"):
+                        events.get(eventNum).setSummary(data);
+                        break;
+                    case ("LAST-MODIFIED"):
+                        m_desc_flag_on = false;
+                        break;
+                    case ("DTSTAMP"):
+                    case ("UID"):
+                    case ("CREATED"):
+                        break;
+                    default:
+                        if(m_desc_flag_on && events.get(eventNum).getDescription().length() > 0) {
+                            String first = events.get(eventNum).getDescription();
+                            events.get(eventNum).setDescription(first + tag);
+                        }
+                        break;
+                }
+            }
+
+        }
+    }
     public void build(String res){
         for (Event e : events){
             if (e.getSummary().length() > 1) {

@@ -50,7 +50,7 @@ public class DetailsActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-        overridePendingTransition(R.anim.colorblind, R.anim.backacceldecel);
+
         return super.onOptionsItemSelected(item);
     }
 }

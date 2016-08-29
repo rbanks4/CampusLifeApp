@@ -5,9 +5,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.widget.ScrollView;
 
 
 public class Info extends Activity {
@@ -17,25 +14,7 @@ public class Info extends Activity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_info);
         // Set the layout for fragment_layout.xml
-        //fragment_layout.xml goes to the fragmentTitle class...see that for layout info
-        setContentView(R.layout.info_webview);
-        // Create a ScrollView to put your hero data in
-        //ScrollView scroller = new ScrollView(this);
-
-        //we will load a webpage based off of the information
-        WebView webview = (WebView) findViewById(R.id.webinfo);
-        webview.getSettings().setUserAgentString("Android");
-        webview.loadUrl("http://clayton.edu/campus-life");
-        /*webview.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                // Activities and WebViews measure progress with different scales.
-                // The progress meter will automatically disappear when we reach 100%
-                //if (this != null) {//fixes null pointer issue
-                    this.setProgress(progress * 1000);
-                //}
-            }
-        });*/
-        //scroller.addView(webview);
+        setContentView(R.layout.fragment_layout);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -59,7 +38,7 @@ public class Info extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-        overridePendingTransition(R.anim.backacceldecelexit,R.anim.backacceldecel);
+
         return super.onOptionsItemSelected(item);
     }
 }

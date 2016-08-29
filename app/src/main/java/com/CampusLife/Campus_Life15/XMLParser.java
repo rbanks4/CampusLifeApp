@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 import android.util.Log;
 
 public class XMLParser {
-
+//TODO find a way to use parser to re-create calendar from 2 months ago with full UI support -Reg
     // constructor
     public XMLParser() {
 
@@ -34,12 +34,35 @@ public class XMLParser {
      * Getting XML from URL making HTTP request
      * @param url string
      * */
+    //TODO if there is no real use for this method, delete it -Reg
+    public String getXmlFromUrl(String url) {
+        String xml = null;
+
+        try {
+            // defaultHttpClient
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(url);
+
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            xml = EntityUtils.toString(httpEntity);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // return XML
+        return xml;
+    }
 
     /**
      * Getting XML DOM element
      * @param XML string
      * */
-    //TODO make a proper comment for this group -Reg
+    //TODO make this work for your UI -Reg
     public Document getDomElement(String xml){
         Document doc = null;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -86,7 +109,6 @@ public class XMLParser {
      * Getting node value
      * @param Element node
      * @param key string
-     * Note: I don't use this
      * */
     public String getValue(Element item, String str, int i) {
         NodeList n = item.getElementsByTagName(str);
