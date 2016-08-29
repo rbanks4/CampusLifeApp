@@ -267,19 +267,68 @@ public class ClCalendar extends Activity {
 
             } catch (InterruptedException e) {
 
+<<<<<<< HEAD
                 e.printStackTrace();
 
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+=======
+            } catch (InterruptedException e) {
+                //this is assuming the file exist
+                Log.e(CAL_LOG, "Calendar download failed.", e);
+            } catch (IOException e) {
+                Log.e(CAL_LOG, "I/O exception", e);
+            } catch (Exception e) {
+                Log.e(CAL_LOG, "not able to write file",e);
+            }
+            if(isFileAvailable(filename)){
+                setupListFromFile(filename);
+>>>>>>> parent of 6cdda49... Speeding up calendar loading
             }
 
             return resString;
         }
+<<<<<<< HEAD
+
+=======
+    }
+    private boolean isFileAvailable(String filename){
+        try{
+            new File(Environment.getExternalStorageDirectory(), filename);
+            return true;
+        }
+        catch(Exception e){
+            Log.i(CAL_LOG, "Calendar file not found", e);
+            return false;
+        }
+    }
+    private void writeToFile(String data) throws Exception {
+        //write calendar file
+        FileOutputStream outputStream;
+        File ocalFile = new File(Environment.getExternalStorageDirectory(), filename);
+        //outputStream = openFileOutput(calFile);
+        outputStream = new FileOutputStream(ocalFile);
+        outputStream.write(data.getBytes());
+        outputStream.close();
+    }
+    private void setupListFromFile(String filename){
+        try {
+            File icalFile = new File(Environment.getExternalStorageDirectory(), filename);
+            FileInputStream fin = new FileInputStream(icalFile);
+            readFile(icalFile);
+        } catch(IndexOutOfBoundsException e){
+            Log.e(CAL_LOG, "Index out of bounds while reading file...");
+        }catch (Exception e){
+            Log.e("ERROR", "could not find calendar file", e);
+            e.printStackTrace();
+        }
+    }
+>>>>>>> parent of 6cdda49... Speeding up calendar loading
 
 
-
+<<<<<<< HEAD
     }
 
     public void build(String res){
@@ -313,6 +362,104 @@ public class ClCalendar extends Activity {
 
             }
 
+=======
+    List<Event> events = new ArrayList<Event>();
+    boolean wakeup = false; //tells us weather or not we should be reading an event
+    boolean skipping = false;
+    boolean m_desc_flag_on = false;
+    public void readFile(File file){
+
+        Log.i(CAL_LOG,"inside of readFile where filesize is: " + file.getTotalSpace());
+        int eventNum = 0;
+        String[] splitter;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            String temp_desc = null;
+            Log.i(CAL_LOG, "made it into the try data");
+            while ((line = br.readLine()) != null) {
+                Log.i(CAL_LOG, "trying to read line:" + line + " where count is:" + eventNum);
+                //process the line
+                if(line.equals("BEGIN:VEVENT"))
+                {
+                    wakeup = true;
+                }
+                else if(line.equals("END:VEVENT")) {
+                    wakeup = false;
+                    if (!skipping)
+                        eventNum++;
+                    else
+                        skipping = false;
+                }
+
+                if (wakeup) {
+                    String tag = splitLine(line,false);
+                    String data = splitLine(line,true);
+                    switch (tag) {
+                        case ("DTSTART;TZID=America/New_York"):
+                            //we don't want to process this...it's too much to carry
+                            wakeup = false;
+                            skipping = true;
+                            break;
+                        case ("DTSTART"):
+                        case ("DTSTART;VALUE=DATE"):
+                            Event a = new Event();
+                            a.setStartDate(data);
+                            events.add(a);
+                            break;
+                        case ("DTEND"):
+                        case ("DTEND;VALUE=DATE"):
+                            events.get(eventNum).setEndDate(data);
+                            break;
+                        case ("DESCRIPTION"):
+                            events.get(eventNum).setDescription(data);
+                            m_desc_flag_on = true;
+                            break;
+                        case ("LOCATION"):
+                            events.get(eventNum).setLocation(data);
+                            break;
+                        case ("SUMMARY"):
+                            events.get(eventNum).setSummary(data);
+                            break;
+                        case ("LAST-MODIFIED"):
+                            m_desc_flag_on = false;
+                            break;
+                        case ("DTSTAMP"):
+                        case ("UID"):
+                        case ("CREATED"):
+                            break;
+                        default:
+                            if(m_desc_flag_on && events.get(eventNum).getDescription().length() > 0) {
+                                String first = events.get(eventNum).getDescription();
+                                events.get(eventNum).setDescription(first + tag);
+                            }
+                            break;
+                    }
+                }
+
+            }
+        }
+        catch(Exception e){
+            Log.i("ERROR", "could not find calendar file", e);
+        }
+    }
+
+    public void build(String res){
+        for (Event e : events){
+            if (e.getSummary().length() > 1) {
+                CLEvent event = new CLEvent(e.getStartDate(), e.getSummary(), e.getEndDate(), e.getLocation(), e.getDescription());
+                Date currentDate = new Date();
+
+                if(event.getDate() != null) {
+                    if (event.getDate().after(currentDate))
+                        elist.add(event);
+                }
+                else{
+                    //make note of this
+                    Log.i(CAL_LOG, "Hey!!! This event didn't have a date!!!: " + event.toString());
+                }
+            }
+>>>>>>> parent of 6cdda49... Speeding up calendar loading
         }
 
 
