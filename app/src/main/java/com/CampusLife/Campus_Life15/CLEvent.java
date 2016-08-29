@@ -1,7 +1,5 @@
 package com.CampusLife.Campus_Life15;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.ViewFlipper;
 
@@ -9,7 +7,7 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class CLEvent implements Parcelable {
+public class CLEvent {
 
     private String m_date;
     private String m_title;
@@ -17,6 +15,7 @@ public class CLEvent implements Parcelable {
     private String m_location;
     //private String prop4;
     private String m_description;
+    private String[] propdate;
     //private String mdate;
     private ViewFlipper flip;
     public int color;
@@ -28,7 +27,8 @@ public class CLEvent implements Parcelable {
     DateFormat tday = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
     SimpleDateFormat dateFormatNoZ = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-    Date date, endDate;
+    Date date;
+    Date endDate;
 
 
 
@@ -60,6 +60,7 @@ public class CLEvent implements Parcelable {
         catch (Exception e){
             e.printStackTrace();
         }
+
         this.m_title = title;//title
 
         if (location != null) {
@@ -73,6 +74,8 @@ public class CLEvent implements Parcelable {
         else{
             this.m_description = "No description available";
         }
+        //final array is something like: {"Friday", "Sep", "30", "2015"}
+        this.propdate = GetCalendarData.dayCircle(this.m_date);
         checkColor();
     }
 
@@ -105,6 +108,10 @@ public class CLEvent implements Parcelable {
 
     public String getDateString() { return m_date; }
 
+    public String getPropDateWeek() {return propdate[0];};
+    public String getPropDateMonth() {return propdate[1];};
+    public String getPropDateDay() {return propdate[2];};
+
     public Date getDate() { return date; }
 
     public String getTitle() {
@@ -126,32 +133,5 @@ public class CLEvent implements Parcelable {
     public ViewFlipper getFlip() { return flip; }
 
     public void setFlip(ViewFlipper f){this.flip = f; }
-
-    private int mData;
-
-    public int describeContents() {
-        return 0;
-    }
-
-    /** save object in parcel */
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(mData);
-    }
-
-    public static final Parcelable.Creator<CLEvent> CREATOR
-            = new Parcelable.Creator<CLEvent>() {
-        public CLEvent createFromParcel(Parcel in) {
-            return new CLEvent(in);
-        }
-
-        public CLEvent[] newArray(int size) {
-            return new CLEvent[size];
-        }
-    };
-
-    /** recreate object from parcel */
-    private CLEvent(Parcel in) {
-        mData = in.readInt();
-    }
 
 }

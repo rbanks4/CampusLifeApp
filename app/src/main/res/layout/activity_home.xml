@@ -65,6 +65,23 @@
                 android:text="@string/info_button"
                 android:textColor="#0e4c8b"/>
         </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/FinalsImage"
+                    android:src="@drawable/register"
+                    android:onClick="viewFinals"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/finals_schedule"
+                    android:textColor="#0e4c8b"/>
+            </LinearLayout>
         </TableRow>
         <ViewAnimator
             android:layout_width="wrap_content"
@@ -82,16 +99,16 @@
                 android:flipInterval="5000"
                 android:paddingTop="20dp"
                 android:layout_gravity="center">
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:src="@drawable/dlcfront" />-->
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:src="@drawable/dlcback"/>-->
+                <!--<ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dlcfront" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dlcback"/>-->
                 <!--<ImageView-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="match_parent"-->

@@ -36,7 +36,7 @@ public class Contact extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-
+        overridePendingTransition(R.anim.backacceldecelexit,R.anim.backacceldecel);
         return super.onOptionsItemSelected(item);
     }
 }

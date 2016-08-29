@@ -1,5 +1,7 @@
 package com.CampusLife.Campus_Life15;
 
+import android.util.Log;
+
 /**
  * Created by rbank on 8/23/2016.
  */
@@ -57,6 +59,9 @@ public class Event {
     }
 
     public void setSummary(String summary) {
+        if(m_summary == null){
+            Log.e("EVENT", "warning title is null when it shouldn't EVER be!!!");
+        }
         m_summary = summary;
     }
 

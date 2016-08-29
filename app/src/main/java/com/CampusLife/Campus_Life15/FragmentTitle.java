@@ -29,7 +29,8 @@ public class FragmentTitle extends ListFragment {
         // array
         ArrayAdapter<String> connectArrayToListView = new ArrayAdapter<String>(
                 getActivity(),
-                android.R.layout.simple_list_item_activated_1,
+                R.layout.list_info_item,
+                //android.R.layout.simple_list_item_activated_1,
                 InfoDetails.NAMES);
 
         // Connect the ListView to our data

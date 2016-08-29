@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp">
+        <TableRow>
+            <TextView
+                android:id="@+id/f_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:text="class"
+                android:layout_weight="1"
+                android:paddingLeft="25dp" />
+            <TextView
+                android:id="@+id/f_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:text="day"
+                android:paddingRight="25dp"
+                android:layout_weight="1"
+                android:gravity="right" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/f_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:paddingBottom="5dp"
+        android:text="time"
+        android:paddingRight="25dp"
+        android:gravity="right" />
+
+</LinearLayout>

@@ -9,17 +9,31 @@ android {
         applicationId "com.CampusLife.Campus_Life15"
         minSdkVersion 11
         targetSdkVersion 22
-        versionCode 6 //version 6 made on 8/27/16 around 2:48 PM
-        versionName "1.1"
-        multiDexEnabled  true
+        versionCode 7 //version 7 made on 08/29/16 around 12:07 AM
+        versionName "2.0"
+        multiDexEnabled true
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/net.fortuna.ical4j.model.ComponentFactory'
+        exclude 'META-INF/services/net.fortuna.ical4j.model.ParameterFactory'
+        exclude 'META-INF/services/net.fortuna.ical4j.model.PropertyFactory'
+        exclude 'META-INF/services/org.codehaus.groovy.runtime.ExtensionModule'
+        exclude 'net/fortuna/ical4j/model/tz.alias'
+        exclude 'zoneinfo/zones.h'
+        exclude 'zoneinfo/zones.tab'
+        exclude 'zoneinfo/Africa/Abidjan.ics'
+        exclude 'zoneinfo/Africa/Accra.ics'
+    }
+
+
     signingConfigs {
         release {
             storeFile file("campuslife.keystore")
             storePassword "1Msosexy"
             keyAlias "campuslife"
             keyPassword "1Msosexy"
-
         }
     }
     buildTypes {
@@ -43,5 +57,11 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.20.0'
     compile 'com.google.api-client:google-api-client-gson:1.20.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev125-1.20.0'
+//    compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
+//        transitive = true;
+//    }
     //compile 'com.f2prateek.progressbutton:progressbutton:(insert latest version)@aar'
+    //compile files('C:/Users/Reginald/AndroidStudioProjects/MyFirstApp/libs/ical4j-2.0-beta1.jar')
+    //compile files('C:/Users/Reginald/AndroidStudioProjects/MyFirstApp/libs/ical4j-2.0-beta1-javadoc.jar')
+    //compile files('C:/Users/Reginald/AndroidStudioProjects/MyFirstApp/libs/ical4j-2.0-beta1-sources.jar')
 }
