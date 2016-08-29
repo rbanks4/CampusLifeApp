@@ -16,15 +16,20 @@ public class CalendarAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ArrayList<CLEvent> objects;
+    private String status;
+    public TextView tview;
 
     private class ViewHolder {
         LinearLayout linearLayout;
-        TextView textView0;
+        LinearLayout titlebox;
+        TextView textVieww;
+        TextView textViewm, textViewd;
         TextView textView1;
         TextView textView2;
         TextView textView3;
         //TextView textView4;
         TextView textView5;
+        View circle;
         ViewFlipper flippy;
     }
 
@@ -48,6 +53,17 @@ public class CalendarAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
+    public void Loading(){
+        //todo add animation if this works
+        //this doesn't work in doInBackground b/c while inside, it can't post
+        status = "Loading...";
+        tview.setText(status);
+    }
+    public void Done(){
+        //todo if loading works, this will work
+        tview.setVisibility(View.GONE);
+    }
+
     public int getCount() {
         return objects.size();
     }
@@ -62,11 +78,15 @@ public class CalendarAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
+        final ViewFlipper flipperTemp;
         if(convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.layout_calendar, null);
             holder.linearLayout = (LinearLayout) convertView.findViewById(R.id.bar);
-            holder.textView0 = (TextView) convertView.findViewById(R.id.date);
+            holder.titlebox = (LinearLayout) convertView.findViewById(R.id.titlebox);
+            holder.textVieww = (TextView) convertView.findViewById(R.id.week);
+            holder.textViewm = (TextView) convertView.findViewById(R.id.month);
+            holder.textViewd = (TextView) convertView.findViewById(R.id.day);
             holder.textView1 = (TextView) convertView.findViewById(R.id.textview1);
             holder.textView2 = (TextView) convertView.findViewById(R.id.textview2);
             holder.textView3 = (TextView) convertView.findViewById(R.id.textview3);
@@ -83,15 +103,39 @@ public class CalendarAdapter extends BaseAdapter {
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+            holder.flippy.setDisplayedChild(0);
         }
         holder.linearLayout.setBackgroundColor(getItem(position).color);
         holder.textView0.setText(objects.get(position).getDateString());
         holder.textView1.setText(objects.get(position).getTitle());
         holder.textView2.setText(objects.get(position).getTime());
         holder.textView3.setText(objects.get(position).getLocation());
+        flipperTemp = (ViewFlipper)convertView.findViewById(R.id.flippy);
+        //todo remember to remove flipper when we add our animator
+        //holder.linearLayout.setBackgroundColor(getItem(position).color);
+        holder.textVieww.setText(objects.get(position).getPropDateWeek());
+        holder.textViewm.setText(objects.get(position).getPropDateMonth());
+        holder.textViewd.setText(objects.get(position).getPropDateDay());
+
+        holder.textView1.setText(objects.get(position).getProp1());
+        holder.textView2.setText(objects.get(position).getProp2());
+        holder.textView3.setText(objects.get(position).getProp3());
         //holder.textView4.setText(objects.get(position).getProp4());
         holder.textView5.setText(objects.get(position).getDescription());
+        holder.textView5.setText(objects.get(position).getProp5());
+
+        holder.titlebox.setBackgroundColor(getItem(position).color);
+        holder.textView2.setTextColor(getItem(position).color);
+        holder.textView3.setTextColor(getItem(position).color);
+        holder.textView5.setTextColor(getItem(position).color);
         //objects.get(position).setFlip(holder.flippy);
+
+        holder.flippy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                flipperTemp.showNext();
+            }
+        });
+
         return convertView;
     }
 }

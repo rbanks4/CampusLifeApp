@@ -16,19 +16,17 @@
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:gravity="center_vertical">
+        android:clickable="false">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Natasha"
             android:src="@drawable/tash"
-            android:layout_weight="0" />
+            android:layout_weight="1" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content">
 
@@ -36,36 +34,49 @@
                 android:text="@string/Tash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#0e4c8b"/>
 
             <TextView
                 android:text="@string/TashPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
                 android:focusable="false" />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
 
             <TextView
                 android:text="@string/NatashaBio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:paddingTop="4dp"/>
+            <TextView
+                android:text="@string/Tash_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textStyle="italic"
+                android:textColor="#0e4c8b"/>
 
         </LinearLayout>
     </TableRow>
     <TableRow
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Kiesa"
             android:src="@drawable/kiesa"
-            android:layout_weight="0" />
+            android:layout_weight="1" />
         <LinearLayout
             android:orientation="vertical"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -73,134 +84,292 @@
             android:text="@string/Kiesa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="#0e4c8b"/>
             <TextView
                 android:text="@string/KiesaPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
                 android:focusable="false" />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
             <TextView
                 android:text="@string/LakiesaBio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:paddingTop="4dp"/>
+            <TextView
+                android:text="@string/Kiesa_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textStyle="italic"
+                android:textColor="#0e4c8b"/>
         </LinearLayout>>
     </TableRow>
-    <TableRow android:layout_marginTop="20dp"
-        android:gravity="center_vertical">
+    <TableRow android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Royal"
             android:src="@drawable/royal"
-            android:layout_weight="0" />
+            android:layout_weight="1" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_marginLeft="20dp">
             <TextView android:text="@string/Royal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#0e4c8b"/>
             <TextView
                 android:text="@string/RoyalPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
                 android:focusable="false" />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
             <TextView
-                android:text="@string/RoyalBio" android:layout_width="wrap_content"
+                android:text="@string/RoyalBio"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:paddingTop="4dp"/>
+            <TextView
+                android:text="@string/Royal_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textStyle="italic"
+                android:textColor="#0e4c8b"/>
         </LinearLayout>
     </TableRow>
-    <TableRow android:layout_marginTop="20dp"
-        android:gravity="center_vertical">
+    <TableRow android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Amber"
             android:src="@drawable/amber"
-            android:layout_weight="0" />
+            android:layout_weight="1" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_marginLeft="20dp">
-            <TextView android:text="@string/Amber" android:layout_width="wrap_content"
+            <TextView android:text="@string/Amber"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#0e4c8b"/>
             <TextView
                 android:text="@string/AmberPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
                 android:focusable="false" />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
             <TextView
-                android:text="@string/AmberBio" android:layout_width="wrap_content"
+                android:text="@string/AmberBio"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:paddingTop="4dp"/>
+            <TextView
+                android:text="@string/Amber_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textStyle="italic"
+                android:textColor="#0e4c8b"/>
         </LinearLayout>
     </TableRow>
     <TableRow
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical">
+        android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Shondo"
             android:src="@drawable/shondo"
-            android:layout_weight="0" />
+            android:layout_weight="1" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_marginLeft="20dp">
         <TextView
             android:text="@string/Shondo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="#0e4c8b"/>
             <TextView
                 android:text="@string/ShondoPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
                 android:focusable="false" />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
             <TextView
-                android:text="@string/ShondoBio" android:layout_width="wrap_content"
+                android:text="@string/ShondoBio"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:paddingTop="4dp"/>
+            <TextView
+                android:text="@string/Shondo_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textStyle="italic"
+                android:textColor="#0e4c8b"/>
         </LinearLayout>
     </TableRow>
-    <TableRow android:layout_marginTop="20dp"
-        android:gravity="center_vertical">
+    <TableRow android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Jen"
             android:src="@drawable/jen"
-            android:layout_weight="0"/>
+            android:layout_weight="1"
+            />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_marginLeft="20dp">
-        <TextView android:text="Jennifer Welch" android:layout_width="wrap_content"
+        <TextView android:text="Jennifer Welch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="#0e4c8b"/>
             <TextView
                 android:text="@string/JenPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
                 android:focusable="false" />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
             <TextView
-                android:text="@string/JenBio" android:layout_width="wrap_content"
+                android:text="@string/JenBio"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:paddingTop="4dp"/>
+            <TextView
+                android:text="@string/Jen_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textStyle="italic"
+                android:textColor="#0e4c8b"/>
         </LinearLayout>
     </TableRow>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="20dp"
+            android:padding="16dp"
+            android:background="@color/background_material_light"
+            android:gravity="center_vertical">
+            <TextView
+                android:text="Contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                android:textColor="#0e4c8b"
+                />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:text="@string/ContactInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:focusable="false" />
+
+            <TextView
+                android:text="Address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="#0e4c8b"
+                />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:text="Department of Campus Life"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:focusable="false" />
+            <TextView
+                android:text="Student Activites Center, Suite 223"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+            <TextView
+                android:text="2000 Clayton State Blvd."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+            <TextView
+                android:text="Morrow, GA 30260-0285"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+
+            <TextView
+                android:text="Office Hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="#0e4c8b"
+                />
+            <View
+                android:background="#0e4c8b"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:text="@string/OfficeHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:focusable="false" />
+        </LinearLayout>
     </TableLayout>
 </ScrollView>
 
