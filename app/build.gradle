@@ -9,8 +9,8 @@ android {
         applicationId "com.CampusLife.Campus_Life15"
         minSdkVersion 11
         targetSdkVersion 22
-        versionCode 7 //version 7 made on 08/29/16 around 12:07 AM
-        versionName "2.0"
+        versionCode 8 //version 7 made on 08/29/16 around 12:07 AM
+        versionName "2.1"
         multiDexEnabled true
     }
     packagingOptions {

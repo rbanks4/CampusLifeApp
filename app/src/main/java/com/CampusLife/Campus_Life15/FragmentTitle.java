@@ -14,10 +14,10 @@ import android.widget.ListView;
 public class FragmentTitle extends ListFragment {
 
     // True or False depending on if we are in horizontal or duel pane mode
-    boolean mDuelPane;
+    boolean m_dualPane;
 
     // Currently selected item in the ListView
-    int mCurCheckPosition = 0;
+    int m_currentCheckPosition = 0;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -39,24 +39,24 @@ public class FragmentTitle extends ListFragment {
         // Check if the FrameLayout with the id details exists
         View detailsFrame = getActivity().findViewById(R.id.details);
 
-        // Set mDuelPane based on whether you are in the horizontal layout
+        // Set duel pane based on whether you are in the horizontal layout
         // Check if the detailsFrame exists and if it is visible
-        mDuelPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+        m_dualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
-        // If the screen is rotated onSaveInstanceState() below will store the // hero most recently selected. Get the value attached to curChoice and // store it in mCurCheckPosition
+        // If the screen is rotated onSaveInstanceState() below will store the // hero most recently selected. Get the value attached to curChoice and // store it in m_currentCheckPosition
         if (savedInstanceState != null) {
             // Restore last state for checked position.
-            mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
+            m_currentCheckPosition = savedInstanceState.getInt("curChoice", 0);
         }
 
-        if (mDuelPane) {
+        if (m_dualPane) {
             // CHOICE_MODE_SINGLE allows one item in the ListView to be selected at a time
             // CHOICE_MODE_MULTIPLE allows multiple
             // CHOICE_MODE_NONE is the default and the item won't be highlighted in this case'
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
             // Send the item selected to showDetails so the right hero info is shown
-            showDetails(mCurCheckPosition);
+            showDetails(m_currentCheckPosition);
         }
     }
 
@@ -66,7 +66,7 @@ public class FragmentTitle extends ListFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("curChoice", mCurCheckPosition);
+        outState.putInt("curChoice", m_currentCheckPosition);
     }
 
     // When a list item is clicked we want to change the hero info
@@ -79,11 +79,11 @@ public class FragmentTitle extends ListFragment {
     void showDetails(int index) {
 
         // The most recently selected hero in the ListView is sent
-        mCurCheckPosition = index;
+        m_currentCheckPosition = index;
 
         // Check if we are in horizontal mode and if yes show the ListView and
         // the hero data
-        if (mDuelPane) {
+        if (m_dualPane) {
 
             // Make the currently selected item highlighted
             getListView().setItemChecked(index, true);

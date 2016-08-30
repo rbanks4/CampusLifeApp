@@ -13,24 +13,26 @@ public class CLEvent {
     private String m_title;
     private String m_time;
     private String m_location;
-    //private String prop4;
     private String m_description;
     private String[] propdate;
-    //private String mdate;
     private ViewFlipper flip;
-    public int color;
+    private int color;
     boolean allday, allnight = false;
 
-    DateFormat fday = new SimpleDateFormat("EEE MMM dd, yyyy");//this is how it should come out
-    DateFormat yearday = new SimpleDateFormat("yyyyMMdd");
-    DateFormat colon = new SimpleDateFormat ("hh:mmaa");
-    DateFormat tday = new SimpleDateFormat("HH:mm:ss");
-    SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
-    SimpleDateFormat dateFormatNoZ = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-    Date date;
-    Date endDate;
+    private DateFormat fday = new SimpleDateFormat("EEE MMM dd, yyyy");//this is how it should come out
+    private DateFormat yearday = new SimpleDateFormat("yyyyMMdd");
+    private DateFormat colon = new SimpleDateFormat ("h:mm aa");
+    private DateFormat tday = new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
+    private SimpleDateFormat dateFormatNoZ = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+    private Date date;
+    private Date endDate;
 
+    public static final int BLACK = 0xff000000;
+    public static final int ORANGE = 0xfff4821f;
+    public static final int BLUE = 0xff0e4c8b;
 
+    public static final long HOUR = 3600*1000;
 
     public CLEvent(String sdate, String title, String edate, String location, String description) {
         this.m_date = sdate;//date
@@ -38,6 +40,7 @@ public class CLEvent {
             if (m_date.length() < 9) {
                 // if it's just the year and day
                 date = yearday.parse(m_date);
+                date = new Date(date.getTime() - HOUR * 4);
                 allday = true;
                 if (edate.length() < 9) {
                     m_time = "All Day";
@@ -45,13 +48,15 @@ public class CLEvent {
                 }
             }
             else {
-                date = dateFormatter(sdate);
+                date = dateFormatter(m_date);
+                date = new Date(date.getTime() - HOUR * 4);
             }
             this.m_date = fday.format(date);//update with the new date
 
             //now we set the time
             if(!allday && !allnight && (edate != null)) {
                 endDate = dateFormatter(edate);
+                endDate = new Date(endDate.getTime() - HOUR * 4);
                 this.m_time = colon.format(date) + " - " + colon.format(endDate);
             }
             else if (allday && !allnight)
@@ -96,21 +101,25 @@ public class CLEvent {
     private void checkColor(){
         if (m_title.contains("No Classes") || m_title.contains("no classes")
                 || m_title.contains("No Class") || m_title.contains("no class")){//check the title name for "No Classes
-            color = 0xff000000;//black for no classes
+            color = BLACK;//black for no classes
         }
         else if ((m_time == "All Day") || (m_location == "All Day")){
-            color = 0xfff4821f;//orange for all day
+            color = ORANGE;//orange for all day
         }
         else{
-            color = 0xff0e4c8b;
+            color = BLUE;
         }
     }
 
-    public String getDateString() { return m_date; }
+    public int getColor(){
+        return color;
+    }
 
     public String getPropDateWeek() {return propdate[0];};
     public String getPropDateMonth() {return propdate[1];};
     public String getPropDateDay() {return propdate[2];};
+
+    public String getDateString() { return m_date; }
 
     public Date getDate() { return date; }
 

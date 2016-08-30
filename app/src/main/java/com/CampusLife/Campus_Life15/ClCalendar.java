@@ -202,7 +202,6 @@ public class ClCalendar extends Activity {
 
         //adds event list to adapter
         adapter.setObjects(elist);
-        //final StableArrayAdapter sAdapter = new StableArrayAdapter(this,R.layout.layout_calendar,elist);
         //makes a list view out of the adapter
         //todo: make animations for appearance of list view
         listview.setAdapter(adapter);

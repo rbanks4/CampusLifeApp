@@ -58,12 +58,13 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
     protected String doInBackground(Void... nope) {//yep...don't pass in anything
         boolean dowloadFailed = false;
         try {
+            publishProgress(5);
             //show the status that it's loading
-            Thread.sleep(4000);
+            Thread.sleep(500);
 
             URL google = new URL(glURL);
             HttpsURLConnection urlConnection = (HttpsURLConnection) google.openConnection();
-            publishProgress(10);
+            publishProgress(25);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
             StringBuilder sb = new StringBuilder();
@@ -77,11 +78,13 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
             publishProgress(75);
 
             //TODO this is really important if we are trying to pass the file as a string
-            //resString = sb.toString(); // Result is here
+            resString = sb.toString(); // Result is here
 
             is.close(); // Close the stream
             urlConnection.disconnect();
             publishProgress(100);
+            writeToFile(resString);
+            return resString;
 
         } catch (InterruptedException e) {
             //this is assuming the file exist

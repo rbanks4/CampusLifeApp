@@ -1,0 +1,157 @@
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    tools:context="com.CampusLife.Campus_Life15.ClCalendar"
+    android:layout_weight="1"
+    android:clickable="false">
+    <RelativeLayout
+        android:layout_width="58dp"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:id="@+id/circle"
+            android:background="@drawable/circle"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:clickable="false"
+            />
+        <TextView
+            android:id="@+id/month"
+            android:text="Sep"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="6dp"
+            android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/day"
+            android:text="30"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_below="@+id/month"
+            android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/week"
+            android:text="Fri"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_below="@+id/day"
+            android:textColor="#0e4c8b" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px" />
+    </RelativeLayout>
+    <ViewFlipper
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/flippy"
+        android:outAnimation="@anim/fadeleft"
+        android:inAnimation="@anim/fadeinleft"
+        android:layout_weight="1"
+        android:layout_marginLeft="4dp">
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:divider="#f4821f"
+            android:id="@+id/bar">
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0"
+                    android:background="#0e4c8b"
+                    android:padding="4dp"
+                    android:id="@+id/titlebox">
+                    <TextView
+                        android:id="@+id/textview1"
+                        android:text="Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:layout_weight="0"/>
+                </LinearLayout>
+
+                <!--<View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="#0e4c8b"/>-->
+                <TextView
+                    android:id="@+id/textview2"
+                    android:text="Time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#0e4c8b" />
+                <TextView
+                    android:id="@+id/textview3"
+                    android:text="Location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#0e4c8b" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#f4821f"
+                    android:layout_weight="1" />
+
+                <!--<TextView
+                    android:id="@+id/textview4"
+                    android:text="Sponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff" />-->
+
+            </LinearLayout>
+        </LinearLayout>
+        <!-- this will show when clicked-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/textview5"
+                android:textStyle="italic"
+                android:text="Information not available." />
+
+
+        </LinearLayout>
+
+    </ViewFlipper>
+
+
+</LinearLayout>
