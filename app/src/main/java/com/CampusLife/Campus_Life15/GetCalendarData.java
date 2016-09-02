@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -42,6 +43,7 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
     private static final String DOWNLOAD_LOG = "Downloading";
     String filename = "calendar.ics";
     private static final String CAL_LIST = "CalendarList";
+    private int m_currentFileSize = 0;
 
     public void setActivity(ClCalendar activity){
         this.activity = activity;
@@ -58,31 +60,40 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
     protected String doInBackground(Void... nope) {//yep...don't pass in anything
         boolean dowloadFailed = false;
         try {
-            publishProgress(5);
+            //publishProgress(5);
             //show the status that it's loading
             Thread.sleep(500);
 
             URL google = new URL(glURL);
             HttpsURLConnection urlConnection = (HttpsURLConnection) google.openConnection();
-            publishProgress(25);
+
+            //publishProgress(25);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
             StringBuilder sb = new StringBuilder();
             String line = null;
             eventNum = 0;
-            publishProgress(50);
+
+            urlConnection.setRequestMethod("HEAD");
+            urlConnection.getInputStream();
+            int size = urlConnection.getContentLength();
+            //publishProgress(50);
             while ((line = reader.readLine()) != null) { // Read line by line
                 sb.append(line + "\n");
                 parseCalLine(line);
+                m_currentFileSize += line.length();
+                publishProgress(m_currentFileSize*100/size);
             }
-            publishProgress(75);
+            Log.i(CAL_LIST, "max: " + size + urlConnection.getHeaderField(1));
+            Log.i(CAL_LIST, "current: " + m_currentFileSize);
+            //publishProgress(75);
 
             //TODO this is really important if we are trying to pass the file as a string
             resString = sb.toString(); // Result is here
 
             is.close(); // Close the stream
             urlConnection.disconnect();
-            publishProgress(100);
+            //publishProgress(100);
             writeToFile(resString);
             return resString;
 
