@@ -27,11 +27,11 @@ public class Info extends Activity {
         webview.getSettings().setUserAgentString("Android");
         webview.loadUrl("http://clayton.edu/campus-life");
         /*webview.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                // Activities and WebViews measure progress with different scales.
-                // The progress meter will automatically disappear when we reach 100%
+            public void onProgressChanged(WebView view, int m_progress) {
+                // Activities and WebViews measure m_progress with different scales.
+                // The m_progress meter will automatically disappear when we reach 100%
                 //if (this != null) {//fixes null pointer issue
-                    this.setProgress(progress * 1000);
+                    this.setProgress(m_progress * 1000);
                 //}
             }
         });*/

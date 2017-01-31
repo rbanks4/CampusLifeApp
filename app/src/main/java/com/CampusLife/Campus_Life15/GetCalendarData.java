@@ -1,15 +1,8 @@
 package com.CampusLife.Campus_Life15;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -22,7 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -31,6 +23,9 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by Reginald on 10/30/2015.
  */
 class GetCalendarData extends AsyncTask<Void, Integer, String> {
+
+    //TODO you should try making test cases for this so that you can assert values...the only problem is that
+    //    your tests will be black box since you need to access them through google calendar
     //the link to our XML data
     String glURL = "https://calendar.google.com/calendar/ical/i3r1v5ktao9tdr0l2klbb3srr4%40group.calendar.google.com/public/basic.ics";
     String resString;
@@ -41,6 +36,7 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
     boolean skipping = false;
     boolean m_desc_flag_on = false;
     private static final String DOWNLOAD_LOG = "Downloading";
+    private static final String ERROR = "ERROR";
     String filename = "calendar.ics";
     private static final String CAL_LIST = "CalendarList";
     private int m_currentFileSize = 0;
@@ -52,7 +48,7 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        activity.splash.gone();
+        activity.m_splash.gone();
         activity.build(events);
     }
 
@@ -143,7 +139,7 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
         } catch(IndexOutOfBoundsException e){
             Log.e(DOWNLOAD_LOG, "Index out of bounds while reading file...");
         }catch (Exception e){
-            Log.e("ERROR", "could not find calendar file", e);
+            Log.e(ERROR, "could not find calendar file", e);
             e.printStackTrace();
         }
     }
@@ -173,10 +169,14 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
                 parseCalLine(line);
         }
         catch(Exception e){
-            Log.i("ERROR", "could not find calendar file", e);
+            Log.i(ERROR, "could not find calendar file", e);
         }
     }
 
+    /**
+     * it's unfortunate that I need a connection to test this...
+     * @param line
+     */
     public void parseCalLine(String line){
         {
             Log.i(DOWNLOAD_LOG, "trying to read line:" + line + " where count is:" + eventNum);
@@ -264,8 +264,8 @@ class GetCalendarData extends AsyncTask<Void, Integer, String> {
 
     protected void setProgressPercent(int value){
         if(value > 10){
-            activity.splash.progressMessage("Reading Data...");
+            activity.m_splash.progressMessage("Reading Data...");
         }
-        activity.splash.updateProgress(value);
+        activity.m_splash.updateProgress(value);
     }
 }

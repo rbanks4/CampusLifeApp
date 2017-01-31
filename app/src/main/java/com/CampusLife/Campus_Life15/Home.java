@@ -70,6 +70,7 @@ public class Home extends Activity {
                 viewContact(arg0);
             }});
         //todo try to make a circular reveal (even though it should only work on lolipop
+        //toto note there is a legacy way to do this...I wish I had my book
         /*// get the center for the clipping circle
         int cx = calimage.getWidth() / 2;
         int cy = calimage.getHeight() / 2;

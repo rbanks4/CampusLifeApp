@@ -26,31 +26,21 @@ import org.w3c.dom.Document;
 public class ClCalendar extends Activity {
 
     /*
-    We use Date and DateFormat in order to show the user the current date.
+    We use Date and DateFormat in order to show the user the current m_date.
     Cal limit is used to limit list of events we show.
      */
-    private Date                            date = new Date();
-    private ImageView                       logo;
-    //todo add to splashscreen class
-    private LinearLayout                    loadingLayout;
-    public SplashScreen             splash;
+    private Date                    m_date = new Date();
+    private ImageView               m_logo;
 
-    public String                   resString = " ";
-    private String                  caltest;
-    //todo remove this once class is moved
-    private String                  glURL = "https://www.google.com/calendar/feeds/dlc7torch%40gmail.com/private-7ee00fe08d8dd0be70fe658c2f363c7d/basic";
-    private XMLParser               cutty = new XMLParser();
-    Document                        caldoc;
-    public ProgressDialog           progress;
+    //todo add to splashscreen class
+    public SplashScreen             m_splash;
+
+    public ProgressDialog           m_progress;
     private ArrayList<CLEvent>      elist = new ArrayList<CLEvent>();
-    private CalParser               cparse = new CalParser();
-    private CalendarAdapter         adapter;
-    //private final int progr[]  = {30, 15, 20, 25, 20};
+    private CalendarAdapter         m_adapter;
+
     private int index;
     private ListView                listview;
-    private String                  status;
-    private static final String     CALENDAR_URL = "https://calendar.google.com/calendar/ical/i3r1v5ktao9tdr0l2klbb3srr4%40group.calendar.google.com/private-76a07fe1d6c488301fbb0dc680d89e9e/basic.ics";
-    private static final String     CALENDAR_FILE_NAME = "m_cal";
     private static final String     CAL_LOG = "Calendar Logs";
 
     @Override
@@ -71,11 +61,11 @@ public class ClCalendar extends Activity {
         LinearLayout activityLayout = new LinearLayout(this);
         RelativeLayout mainLayout = new RelativeLayout(this);
 
-        splash = new SplashScreen();
-        splash.setContext(this);
+        m_splash = new SplashScreen();
+        m_splash.setContext(this);
 
-        adapter = new CalendarAdapter();
-        adapter.setContext(this);
+        m_adapter = new CalendarAdapter();
+        m_adapter.setContext(this);
 
         RelativeLayout.LayoutParams ml = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.FILL_PARENT,
@@ -117,16 +107,15 @@ public class ClCalendar extends Activity {
         listview.setVerticalScrollBarEnabled(true);
         //listview.setPadding(0, 0, 0, 60);
 
-        //this is the loading splash screen
-        splash.setImage(R.drawable.campuslife24);
-        progress = new ProgressDialog(this);
-        progress.setMax(100);
-        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progress.setMessage("Loading...");
-        splash.setProgress(progress);
+        //this is the loading m_splash screen
+        m_splash.setImage(R.drawable.campuslife24);
+        m_progress = new ProgressDialog(this);
+        m_progress.setMax(100);
+        m_progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        m_progress.setMessage("Loading...");
+        m_splash.setProgress(m_progress);
 
-        //loadingLayout.addView(progress);
-        mainLayout.addView(splash.getSplash());
+        mainLayout.addView(m_splash.getSplash());
 
         //run our background class
         GetCalendarData xmlThread = new GetCalendarData();
@@ -185,7 +174,7 @@ public class ClCalendar extends Activity {
                             elist.add(event);
                     } else {
                         //make note of this
-                        Log.i(CAL_LOG, "Hey!!! This event didn't have a date at index: " + i + " whole line: " + event.toString());
+                        Log.i(CAL_LOG, "Hey!!! This event didn't have a m_date at index: " + i + " whole line: " + event.toString());
                     }
                 }
                 ++i;
@@ -201,10 +190,10 @@ public class ClCalendar extends Activity {
         elist = removeOldDates(elist);
 
         //adds event list to adapter
-        adapter.setObjects(elist);
+        m_adapter.setObjects(elist);
         //makes a list view out of the adapter
         //todo: make animations for appearance of list view
-        listview.setAdapter(adapter);
+        listview.setAdapter(m_adapter);
 
     }
 
@@ -213,7 +202,7 @@ public class ClCalendar extends Activity {
         Iterator<CLEvent> event = object.iterator();
          while(event.hasNext()) {
              CLEvent user = event.next();
-            if (user.getDate().before(date)) {//if event is past current date
+            if (user.getDate().before(m_date)) {//if event is past current m_date
                 event.remove(); //remove the event
             }
              else{

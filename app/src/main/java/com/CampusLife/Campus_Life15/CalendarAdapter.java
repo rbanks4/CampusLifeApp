@@ -1,15 +1,10 @@
 package com.CampusLife.Campus_Life15;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -48,15 +43,16 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ItemHolder holder = null;
+        CalendarItemHolder holder = null;
         final ViewFlipper flipperTemp;
         if(convertView == null) {
-            holder = new ItemHolder();
             convertView = inflater.inflate(R.layout.layout_calendar, null);
 
+            holder = new CalendarItemHolder();
             holder.setupHolderViews(convertView);
 
-            final ItemHolder finalHolder = holder;
+            //it's sad but I have to change it to final before I add it to this
+            final CalendarItemHolder finalHolder = holder;
             holder.flippy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -65,7 +61,7 @@ public class CalendarAdapter extends BaseAdapter {
             });
             convertView.setTag(holder);
         } else {
-            holder = (ItemHolder) convertView.getTag();
+            holder = (CalendarItemHolder) convertView.getTag();
             holder.flippy.setDisplayedChild(0);
         }
         flipperTemp = (ViewFlipper)convertView.findViewById(R.id.flippy);

@@ -9,8 +9,12 @@ import android.widget.ViewFlipper;
 
 /**
  * Created by rbank on 8/29/2016.
+ * this is an item that is your main view for a calendar item...We want to eventually change this so that it links to an event page
+ *
+ *
+ * TODO we need to make an event view and then show it by clicking this item
  */
-public class ItemHolder {
+public class CalendarItemHolder {
     LinearLayout linearLayout;
     LinearLayout titlebox;
     TextView textView_week;
